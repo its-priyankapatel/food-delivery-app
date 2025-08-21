@@ -8,6 +8,7 @@ import RestaurantRoutes from "./Routes/RestaurantRoutes.js";
 import CartRoutes from "./Routes/CartRoutes.js";
 import SearchRoutes from "./Routes/SearchRoutes.js";
 import { DbConnect } from "./config/db.js";
+import PaymentRoutes from "./Routes/PaymentRoutes.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/api/food", FoodRoutes);
 app.use("/api/restaurant", RestaurantRoutes);
 app.use("/api/cart", CartRoutes);
 app.use("/api/search", SearchRoutes);
+app.use("/api/payment", PaymentRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

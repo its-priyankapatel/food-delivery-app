@@ -10,6 +10,8 @@ import RegisterRestaurant from "./pages/RegisterRestaurant";
 import PublicRoutes from "./routes/PublicRoutes";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import Cart from "./component/Cart";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFailure from "./pages/PaymentFailure";
 const App = () => {
   return (
     <>
@@ -67,6 +69,22 @@ const App = () => {
           element={
             <ProtectedRoute>
               <Cart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/success"
+          element={
+            <ProtectedRoute>
+              <PaymentSuccess />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/failure"
+          element={
+            <ProtectedRoute>
+              <PaymentFailure />
             </ProtectedRoute>
           }
         />

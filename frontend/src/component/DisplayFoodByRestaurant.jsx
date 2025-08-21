@@ -3,10 +3,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import { IoStar } from "react-icons/io5";
 import { MdOutlineCurrencyRupee } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const DisplayFoodRestaurant = () => {
   const { backendUrl } = useContext(AppContext);
-
+  const navigate = useNavigate();
   const token = localStorage.getItem("token") || "";
   const [allRestaurant, setAllRestaurant] = useState([]);
   const [firstFoodIds, setFirstFoodIds] = useState([]);
@@ -66,6 +67,12 @@ const DisplayFoodRestaurant = () => {
     GetAllRestaurant();
   }, []);
 
+  const switchRestaurant = (restaurant) => {
+    console.log(restaurant);
+
+    navigate(`/restaurant/${restaurant._id}`);
+  };
+
   return (
     <div className="h-auto w-full">
       <h1 className="text-4xl text-center font-semibold text-primary text-shadow-2xs text-shadow-black py-10 bg-secondary selection:text-tertiary selection:bg-primary h-28">
@@ -81,6 +88,7 @@ const DisplayFoodRestaurant = () => {
               return (
                 <div
                   key={index}
+                  onClick={() => switchRestaurant(restaurant)}
                   className="h-85 w-85 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300 cursor-pointer mx-4"
                 >
                   <div className="">

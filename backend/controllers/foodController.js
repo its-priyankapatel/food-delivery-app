@@ -170,19 +170,44 @@ export const fetchCategoryController = async (req, res) => {
 export const getFoodByCategoryController = async (req, res) => {
   try {
     const { categoryName } = req.params;
-    const food = await Food.find({ category: categoryName }).populate(
+    const foods = await Food.find({ category: categoryName }).populate(
       "restaurant"
     );
-    if (!food) {
+    if (!foods) {
       return res.status(404).send({
         success: false,
         message: "Food is not Found",
       });
     }
+    console.log(foods);
+
+    const uniqueRestaurants = [];
+    const seen = new Set();
+
+    for (const food of foods) {
+      if (!seen.has(food.restaurant.id)) {
+        seen.add(food.restaurant.id);
+        uniqueRestaurants.push({
+          restaurantId: food.restaurant.id,
+          restaurantName: food.restaurant.name,
+          foodId: food.id,
+          foodName: food.name,
+          foodImage: food.image,
+          description: food.restaurant.description,
+          rating: food.restaurant.rating,
+        });
+      }
+    }
+    console.log(
+      "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+    );
+
+    console.log(uniqueRestaurants);
+
     return res.status(200).send({
       success: true,
       message: "Food Fetched by Category successfully",
-      food: food,
+      food: uniqueRestaurants,
     });
   } catch (error) {
     console.log(error);

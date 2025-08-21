@@ -11,7 +11,7 @@ import { MdOutlineCurrencyRupee } from "react-icons/md";
 import { toast } from "react-toastify";
 
 const DisplayRestaurant = () => {
-  const { food, setFood, backendUrl } = useContext(AppContext);
+  const { food, setFood, backendUrl, handleAddCart } = useContext(AppContext);
   const navigate = useNavigate();
   const { restaurantId } = useParams();
   const token = localStorage.getItem("token") || "";
@@ -22,18 +22,22 @@ const DisplayRestaurant = () => {
     return stored ? JSON.parse(stored) : {};
   });
 
-  const { cart, handleAddCart } = useContext(AppContext);
-
   useEffect(() => {
-    if (!food || Object.keys(food).length === 0) {
-      const storedFood = localStorage.getItem("selectedFood");
-      if (storedFood) {
-        setFood(JSON.parse(storedFood));
-      }
-    }
+    // if (!food || Object.keys(food).length === 0) {
+    //   const storedFood = localStorage.getItem("selectedFood");
+    //   if (storedFood) {
+    //     setFood(JSON.parse(storedFood));
+    //   }
+    // }
 
     FetchRestaurantData();
-  }, [restaurantId, food]);
+  }, [restaurantId]);
+
+  // useEffect(() => {
+  //   return () => {
+  //     setFood({});
+  //   };
+  // }, []);
 
   const FetchRestaurantData = async () => {
     try {
@@ -57,17 +61,14 @@ const DisplayRestaurant = () => {
     localStorage.setItem("selectedFood", JSON.stringify(val));
   };
 
-  // const handleviewCart = () => {
-  //   navigate("/add-cart");
-  // };
   return (
     <>
       <Navbar />
-      <div className="h-120 w-full bg-secondary p-5 flex mt-24">
-        <div className="h-100 w-100 flex-col">
-          {food?.image ? (
+      <div className="h-90 w-full bg-secondary p-5 flex mt-24">
+        <div className="h-80 w-80 flex-col">
+          {selectedFood?.image ? (
             <div
-              className="h-full w-full rounded-xl border-4 border-white bg-no-repeat bg-cover bg-center"
+              className="h-70 w-80 rounded-xl border-4 border-white bg-no-repeat bg-cover bg-center"
               style={{ backgroundImage: `url(${selectedFood.image})` }}
             ></div>
           ) : (
@@ -76,14 +77,14 @@ const DisplayRestaurant = () => {
             </div>
           )}
           <h1 className="text-2xl font-bold text-primary text-center">
-            {selectedFood.name}
+            {selectedFood?.name}
           </h1>
         </div>
         <div className="h-100 w-180 pt-1 pl-15 selection:text-tertiary selection:bg-primary">
-          <p className="font-semibold text-3xl mt-4 text-primary text-shadow-2xs ">
+          <p className="font-semibold text-3xl text-primary text-shadow-2xs ">
             Explore Restaurant Info
           </p>
-          <p className="text-2xl font-medium pt-8  text-primary text-shadow-2xs">
+          <p className="text-2xl font-medium pt-4 text-primary text-shadow-2xs">
             {restaurantData.name}
           </p>
           <p className="text-md pt-3  text-primary text-shadow-2xs">
@@ -97,59 +98,53 @@ const DisplayRestaurant = () => {
             {restaurantData.mobile}
           </p>
           <p className="text-md pt-3 flex gap-2  text-primary text-shadow-2xs">
-            <MdOutlineAccessTime className="mt-1" />
+            <MdOutlineAccessTime className="mt-1 text-lg" />
             {restaurantData.time}
           </p>
-          <p className=" w-12 h-8 flex gap-1 items-center justify-center rounded-sm mt-2 text-white bg-transparent border-1">
+          <p className=" w-14 h-8 flex gap-1 items-center justify-center rounded-sm mt-4 text-white border-2 border-gray-400">
             {restaurantData.rating}
             <IoStar />
           </p>
-          <div className="flex gap-4">
-            <button
-              // onClick={() => handleAddToCart(food._id)}
-              onClick={() => handleAddCart(food._id)}
-              className="bg-primary h-10 w-24 mt-4 text-secondary font-bold rounded-md cursor-pointer"
-            >
-              ADD
-            </button>
-          </div>
         </div>
       </div>
-      <div className="bg-primary py-4">
-        <h1 className="my-10 text-4xl text-center font-semibold text-tertiary selection:text-primary selection:bg-tertiary">
-          Dishes Served at {restaurantData.name}
+      <div className="h-auto w-full bg-primary">
+        <h1 className="my-8 text-center text-3xl font-semibold text-tertiary selection:text-primary selection:bg-tertiary bg-primary py-6">
+          Dishes Recommended at {restaurantData.name}
         </h1>
-        <div className="grid grid-cols-5 mx-20 gap-4">
-          {allFood.map((val, index) => (
-            <div
-              onClick={() => handleClick(val)}
-              key={index}
-              className="h-70 w-60 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300 cursor-pointer mx-3"
-            >
+        <div />
+        <div className="h-auto w-full bg-primary">
+          <div className="flex flex-col justify-center items-center gap-4">
+            {allFood.map((val, index) => (
               <div
-                className="h-40 w-56 rounded-xl m-auto mt-2 bg-no-repeat bg-center bg-cover"
-                style={{ backgroundImage: `url(${val.image})` }}
-                alt=""
-              ></div>
-              <div className="h-26 w-56 m-auto mt-1 flex">
-                <div className="h-full w-[60%] p-1">
-                  <p className="text-gray-700 font-bold text-md">{val.name}</p>
-                  <p className="text-gray-700 text-xs font-normal">
-                    {val.description}
-                  </p>
+                onClick={() => handleClick(val)}
+                key={index}
+                className="h-50 w-[60%] flex justify-center items-center rounded-xl shadow-lg hover:shadow-xs hover:shadow-gray-400 duration-300 cursor-pointer mx-3"
+              >
+                <div className="h-[90%] w-[65%] p-4 flex flex-col gap-3">
+                  <div className="text-xl font-bold text-tertiary">
+                    {val.name}
+                  </div>
+                  <div className="text-gray-800 font-bold text-sm flex ">
+                    <MdOutlineCurrencyRupee className="mt-1 font-bold" />
+                    {val.price}
+                  </div>
+                  <div className="text-xs text-gray-700">{val.description}</div>
                 </div>
-                <div className="w-[40%] flex flex-col items-end gap-4 mt-1">
-                  <div className="text-sm text-gray-700 flex">
-                    <MdOutlineCurrencyRupee className="mt-1" />
-                    {val.price} for one
-                  </div>
-                  <div className="bg-secondary h-7 w-10 text-white rounded-sm text-sm flex gap-1 items-center justify-center">
-                    {val.rating} <IoStar />
-                  </div>
+                <div className="h-[90%] w-[30%] flex flex-col justify-center items-center relative">
+                  <div
+                    className="h-[70%] w-[60%] rounded-xl m-auto mt-2 bg-no-repeat bg-center bg-cover"
+                    style={{ backgroundImage: `url(${val.image})` }}
+                  ></div>
+                  <button
+                    onClick={() => handleAddCart(val._id)}
+                    className="h-10 w-26 absolute bottom-7 text-secondary font-bold cursor-pointer rounded-md bg-primary text-md shadow-md shadow-gray-400 hover:bg-gray-200"
+                  >
+                    ADD
+                  </button>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </>
@@ -157,3 +152,5 @@ const DisplayRestaurant = () => {
 };
 
 export default DisplayRestaurant;
+
+//food._id

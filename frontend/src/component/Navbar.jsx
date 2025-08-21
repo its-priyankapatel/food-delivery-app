@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { AppContext } from "./../context/AppContext";
 
 const Navbar = () => {
-  const { backendUrl } = useContext(AppContext);
+  const { backendUrl, setFood } = useContext(AppContext);
   const [isProfileClick, setIsProfileClick] = useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("token") || "";
@@ -32,7 +32,6 @@ const Navbar = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(data);
         setSearch(data.food);
       } catch (err) {
         console.error("Search failed:", err);
@@ -43,7 +42,8 @@ const Navbar = () => {
     }
   };
 
-  const handleRestaurant = async (restaurantId) => {
+  const handleRestaurant = async (restaurantId, food) => {
+    localStorage.setItem("selectedFood", JSON.stringify(food));
     navigate(`/restaurant/${restaurantId}`);
   };
 
@@ -78,7 +78,7 @@ const Navbar = () => {
             {search.map((item, index) => (
               <div
                 key={item._id || index}
-                onClick={() => handleRestaurant(item.restaurant._id)}
+                onClick={() => handleRestaurant(item.restaurant._id, item)}
                 className="flex items-center gap-4 mb-2 cursor-pointer hover:bg-gray-200 p-2 rounded-lg"
               >
                 <img
