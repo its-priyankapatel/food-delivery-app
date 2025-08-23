@@ -9,7 +9,7 @@ import CartRoutes from "./Routes/CartRoutes.js";
 import SearchRoutes from "./Routes/SearchRoutes.js";
 import { DbConnect } from "./config/db.js";
 import PaymentRoutes from "./Routes/PaymentRoutes.js";
-
+import morgan from "morgan";
 const app = express();
 
 dotenv.config();
@@ -17,6 +17,7 @@ DbConnect();
 
 app.use(express.json());
 app.use(cors());
+app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
   res.send("API is running");

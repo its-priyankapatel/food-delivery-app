@@ -14,7 +14,7 @@ const Cart = () => {
   const { backendUrl, handleAddCart } = useContext(AppContext);
   const [cartItem, setCartItem] = useState([]);
   const [cart, setCart] = useState({});
-  const token = localStorage.getItem("token") || "";
+  const token = localStorage.getItem("userToken") || "";
 
   // ✅ fetch cart items
   const fetchCartItem = async () => {
@@ -51,7 +51,7 @@ const Cart = () => {
           })),
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token} ` },
         }
       );
 
@@ -81,7 +81,7 @@ const Cart = () => {
       const { data } = await axios.post(
         backendUrl + `/api/cart/reduce-cart/${foodId}`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token} ` } }
       );
       if (data.success) {
         await fetchCartItem();
@@ -135,7 +135,7 @@ const Cart = () => {
                 <div className="w-[70%] h-full flex items-center py-4 pl-4 gap-8">
                   <div
                     className="h-40 w-40 bg-center bg-no-repeat bg-cover rounded-xl"
-                    style={{ backgroundImage: `url(${item.food.image})` }}
+                    style={{ backgroundImage: url(`${item.food.image}`) }}
                   ></div>
                   <div className="h-40 flex flex-col gap-2">
                     <h2 className="text-2xl font-semibold text-tertiary">

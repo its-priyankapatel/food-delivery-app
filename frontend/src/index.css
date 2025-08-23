@@ -1,10 +1,17 @@
 @import "tailwindcss";
 
-@theme{
-    --color-primary:#ffffff;
-    --color-secondary:#4E6C50;
-    --color-tertiary:#820000;
+@font-face {
+  font-family: poppins;
+  src: url("/Poppins-Regular.ttf") format("truetype");
 }
+
+@theme {
+  --color-primary: #ffffff;
+  --color-secondary: #4E6C50;
+  --color-tertiary: #820000;
+  --font-poppins: poppins, "sans-serif";
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }

@@ -8,7 +8,6 @@ const RegisterRestaurant = () => {
   const signup =
     "https://res.cloudinary.com/dbbmvt91t/image/upload/v1752950481/def56e30-bea5-43fb-87e3-d961aac09fa9_mvx6qn.png";
   const { backendUrl } = useContext(AppContext);
-  const token = localStorage.getItem("token") || "";
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,9 +43,6 @@ const RegisterRestaurant = () => {
           time,
           rating,
           description,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (data.success) {

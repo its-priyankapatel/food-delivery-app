@@ -34,7 +34,7 @@ export const addRestaurantController = async (req, res) => {
         message: "Mobile Number Must be 10 digits",
       });
     }
-    const isRestaurant = await Restaurant.findOne({ name });
+    const isRestaurant = await Restaurant.findOne({ email });
     if (isRestaurant) {
       return res.status(400).send({
         success: false,

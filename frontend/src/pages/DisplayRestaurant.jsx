@@ -9,12 +9,14 @@ import { MdOutlineAccessTime } from "react-icons/md";
 import Navbar from "./../component/Navbar";
 import { MdOutlineCurrencyRupee } from "react-icons/md";
 import { toast } from "react-toastify";
+import Spinner from "../component/Spinner";
 
 const DisplayRestaurant = () => {
-  const { food, setFood, backendUrl, handleAddCart } = useContext(AppContext);
+  const { food, setFood, backendUrl, handleAddCart, foodOne, assignFoodValue } =
+    useContext(AppContext);
   const navigate = useNavigate();
   const { restaurantId } = useParams();
-  const token = localStorage.getItem("token") || "";
+  const token = localStorage.getItem("userToken") || "";
   const [restaurantData, setRestaurantData] = useState("");
   const [allFood, setAllFood] = useState([]);
   const [selectedFood, setSelectedFood] = useState(() => {
@@ -59,6 +61,7 @@ const DisplayRestaurant = () => {
   const handleClick = (val) => {
     setSelectedFood(val);
     localStorage.setItem("selectedFood", JSON.stringify(val));
+    assignFoodValue(val);
   };
 
   return (
@@ -66,18 +69,18 @@ const DisplayRestaurant = () => {
       <Navbar />
       <div className="h-90 w-full bg-secondary p-5 flex mt-24">
         <div className="h-80 w-80 flex-col">
-          {selectedFood?.image ? (
+          {foodOne.foodImage ? (
             <div
               className="h-70 w-80 rounded-xl border-4 border-white bg-no-repeat bg-cover bg-center"
-              style={{ backgroundImage: `url(${selectedFood.image})` }}
+              style={{ backgroundImage: `url(${foodOne.foodImage})` }}
             ></div>
           ) : (
-            <div className="h-full w-full rounded-xl border-4 border-white flex items-center justify-center bg-gray-100">
-              Loading Image...
+            <div className="h-full w-full rounded-xl border-4 border-white flex items-center justify-center bg-gray-500">
+              <Spinner />
             </div>
           )}
           <h1 className="text-2xl font-bold text-primary text-center">
-            {selectedFood?.name}
+            {foodOne?.name}
           </h1>
         </div>
         <div className="h-100 w-180 pt-1 pl-15 selection:text-tertiary selection:bg-primary">
@@ -118,17 +121,22 @@ const DisplayRestaurant = () => {
               <div
                 onClick={() => handleClick(val)}
                 key={index}
-                className="h-50 w-[60%] flex justify-center items-center rounded-xl shadow-lg hover:shadow-xs hover:shadow-gray-400 duration-300 cursor-pointer mx-3"
+                className="h-50 w-[60%] flex justify-center items-center relative rounded-xl shadow-lg hover:shadow-xs hover:shadow-gray-400 duration-300 cursor-pointer mx-3"
               >
+                {val.inStock === false && (
+                  <div className="bg-gray-700/30 absolute h-full w-full rounded-xl z-10 flex justify-center items-center text-lg text-bold text-gray-900 font-poppins">
+                    Unavailable
+                  </div>
+                )}
                 <div className="h-[90%] w-[65%] p-4 flex flex-col gap-3">
                   <div className="text-xl font-bold text-tertiary">
                     {val.name}
                   </div>
-                  <div className="text-gray-800 font-bold text-sm flex ">
+                  <div className="text-gray-800 font-bold text-md flex ">
                     <MdOutlineCurrencyRupee className="mt-1 font-bold" />
                     {val.price}
                   </div>
-                  <div className="text-xs text-gray-700">{val.description}</div>
+                  <div className="text-sm text-gray-700">{val.description}</div>
                 </div>
                 <div className="h-[90%] w-[30%] flex flex-col justify-center items-center relative">
                   <div
@@ -152,5 +160,3 @@ const DisplayRestaurant = () => {
 };
 
 export default DisplayRestaurant;
-
-//food._id

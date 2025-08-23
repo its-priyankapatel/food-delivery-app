@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const DisplayFoodRestaurant = () => {
   const { backendUrl } = useContext(AppContext);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token") || "";
+  const token = localStorage.getItem("userToken") || "";
   const [allRestaurant, setAllRestaurant] = useState([]);
   const [firstFoodIds, setFirstFoodIds] = useState([]);
   const [foodDetails, setFoodDetails] = useState({});

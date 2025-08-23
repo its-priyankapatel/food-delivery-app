@@ -1,37 +1,35 @@
-import React, { useContext, useState } from "react";
-import SignUp from "../assets/SignUp.jpg";
-import { AppContext } from "../context/AppContext";
 import axios from "axios";
-import { toast } from "react-toastify";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import RestaurantLogin from "./RestaurantLogin";
+import App from "../App";
+import { AppContext } from "../context/AppContext";
+import { toast } from "react-toastify";
 
-const Login = () => {
-  const navigate = useNavigate();
-  const { backendUrl, currencySymbol } = useContext(AppContext);
-
+const RestaurantLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+  const { backendUrl } = useContext(AppContext);
 
   const handleAuthentication = async () => {
-    try {
-      const { data } = await axios.post(backendUrl + "/api/auth/login", {
+    const { data } = await axios.post(
+      backendUrl + "/api/auth/restaurant-login",
+      {
         email,
         password,
-      });
-      if (data.success) {
-        toast.success(data.message);
-        localStorage.setItem("userToken", data.token);
-        setEmail("");
-        setPassword("");
-        navigate("/");
       }
-    } catch (error) {
-      console.log(error);
+    );
+    if (data.success) {
+      toast.success(data.message);
+      localStorage.setItem("restaurantToken", data.token);
+      setEmail("");
+      setPassword("");
+      navigate("/restaurant-dashboard");
+    } else {
       toast.error("Error in User Login");
     }
   };
@@ -39,11 +37,12 @@ const Login = () => {
     <>
       <div className="w-full h-screen flex flex-col bg-primary md:flex-row">
         {/* First Section */}
-        <img className=" w-1/2 object-cover" src={SignUp} alt="Signup Visual" />
+        {/* <img className="w-1/2 object-cover" src={SignUp} alt="Signup Visual" /> */}
+        <div className="md:w-1/2 w-full md:border-r-2 border-b-2 h-[30%] md:h-full"></div>
         {/* Second Section */}
         <div className="flex flex-col gap-2 md:gap-4 w-full md:w-1/2 justify-center items-center p-8 h-[70%] md:h-full">
           <h3 className="text-2xl font-semibold text-tertiary text-center selection:text-tertiary selection:bg-primary">
-            Welcome Back! Login to your account
+            Welcome Chef! Login to your restaurant account
           </h3>
 
           <form
@@ -86,9 +85,9 @@ const Login = () => {
             Login as a{" "}
             <span
               className="font-semibold underline cursor-pointer"
-              onClick={() => navigate("/login/restaurant")}
+              onClick={() => navigate("/login")}
             >
-              Restaurant
+              User
             </span>
           </p>
         </div>
@@ -97,4 +96,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RestaurantLogin;

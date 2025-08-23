@@ -62,35 +62,9 @@ export const Login = async (req, res) => {
     }
     const user = await User.findOne({ email });
     if (!user) {
-      const restaurant = await Restaurant.findOne({ email });
-      if (!restaurant) {
-        return res.status(404).send({
-          success: false,
-          message: "Account Not Found",
-        });
-      }
-      const res_comparePassword = await bcrypt.compare(
-        password,
-        restaurant.password
-      );
-      if (!res_comparePassword) {
-        return res.status(400).send({
-          success: false,
-          message: "Password Doesn't Match",
-        });
-      }
-      const token = jwt.sign(
-        { id: restaurant._id, role: "restaurant" },
-        process.env.SECRET_KEY,
-        {
-          expiresIn: "8d",
-        }
-      );
-      return res.status(200).send({
-        success: true,
-        message: "Restaurant Login Successfully",
-        restaurant,
-        token,
+      return res.status(404).send({
+        success: false,
+        message: "User Not Found",
       });
     }
     const comparePassword = await bcrypt.compare(password, user.password);
@@ -100,13 +74,9 @@ export const Login = async (req, res) => {
         message: "Password Doesn't Match",
       });
     }
-    const token = jwt.sign(
-      { id: user._id, role: "user" },
-      process.env.SECRET_KEY,
-      {
-        expiresIn: "8d",
-      }
-    );
+    const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "30d",
+    });
     return res.status(200).send({
       success: true,
       message: "User Login Successfully",
@@ -121,37 +91,69 @@ export const Login = async (req, res) => {
     });
   }
 };
+/*
+@route   POST /api/auth/restaurant-login
+@desc    Login for restaurant 
+*/
+export const restaurantLogin = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    if (!email || !password) {
+      return res.status(400).send({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+    console.log(password);
+    const restaurant = await Restaurant.findOne({ email });
+    if (!restaurant || restaurant.length === 0) {
+      return res.status(404).send({
+        success: false,
+        message: "Restaurant Not Found",
+      });
+    }
+    console.log(restaurant);
+    const comparePassword = await bcrypt.compare(password, restaurant.password);
+    if (!comparePassword) {
+      return res.status(400).send({
+        success: false,
+        message: "Password Doesn't Match",
+      });
+    }
+    const token = jwt.sign({ id: restaurant._id }, process.env.SECRET_KEY, {
+      expiresIn: "30d",
+    });
+    return res.status(200).send({
+      success: true,
+      message: "Restaurant Login Successfully",
+      restaurant,
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Internal server Error",
+    });
+  }
+};
 
 export const getUserController = async (req, res) => {
   try {
-    const { id, role } = req.user;
-    if (role === "user") {
-      const user = await User.findOne({ _id: id });
-      if (!user) {
-        return res.status(404).send({
-          success: false,
-          message: "User Not found",
-        });
-      }
-      return res.status(200).send({
-        success: true,
-        message: "User Found Successfully",
-        user,
-      });
-    } else {
-      const restaurant = await Restaurant.findOne({ _id: id });
-      if (!restaurant) {
-        return res.status(404).send({
-          success: false,
-          message: "Restaurant Not found",
-        });
-      }
-      return res.status(200).send({
-        success: true,
-        message: "Restaurant Found Successfully",
-        restaurant,
+    const { id } = req.user;
+
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "User Not found",
       });
     }
+    return res.status(200).send({
+      success: true,
+      message: "User Found Successfully",
+      user,
+    });
   } catch (error) {
     console.log(error);
 
@@ -179,6 +181,37 @@ export const getUserByIdController = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
+/*
+@route   GET /api/auth/get-restaurant
+@desc    Get restaurant details 
+*/
+
+export const getRestaurantController = async (req, res) => {
+  try {
+    const { id } = req.user;
+
+    const restaurant = await Restaurant.findOne({ _id: id }).populate("food");
+    if (!restaurant) {
+      return res.status(404).send({
+        success: false,
+        message: "Restaurant Not found",
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      message: "Restaurant Found Successfully",
+      restaurant,
+    });
+  } catch (error) {
+    console.log(error);
+
     return res.status(500).send({
       success: false,
       message: "Internal Server Error",

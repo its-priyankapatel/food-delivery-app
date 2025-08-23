@@ -6,7 +6,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 const AllFood = () => {
   const { backendUrl } = useContext(AppContext);
   const [category, setCategory] = useState([]);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("userToken");
   const [showLeftBlur, setShowLeftBlur] = useState(false);
   const [showRightBlur, setShowRightBlur] = useState(false);
   const navigate = useNavigate();
@@ -16,7 +16,8 @@ const AllFood = () => {
   const GetCategory = async () => {
     try {
       const { data } = await axios.get(
-        `${backendUrl}/api/food/get-categories`,
+        `
+        ${backendUrl}/api/food/get-categories`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -70,7 +71,7 @@ const AllFood = () => {
           <div className="pointer-events-none absolute right-7 top-0 bottom-0 w-14 bg-gradient-to-l from-white to-transparent z-10" />
         )}
         <button
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 shadow p-2 rounded-full "
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 shadow p-2 rounded-full cursor-pointer"
           onClick={scrollLeft}
         >
           <FaChevronLeft className="text-lg text-secondary" />
@@ -89,7 +90,7 @@ const AllFood = () => {
             >
               <div
                 className="w-40 h-40 rounded-full object-cover mx-auto bg-cover bg-no-repeat bg-center"
-                style={{ backgroundImage: `url(${val.image})` }}
+                style={{ backgroundImage: `url(${val.image}) ` }}
               ></div>
               <h3 className="mt-2 font-medium text-tertiary text-shadow-2xs shadow-black">
                 {val.name}
@@ -100,7 +101,7 @@ const AllFood = () => {
 
         {/* Right Arrow */}
         <button
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 shadow p-2 rounded-full"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 shadow p-2 rounded-full cursor-pointer"
           onClick={scrollRight}
         >
           <FaChevronRight className="text-lg text-secondary" />

@@ -12,6 +12,13 @@ import ProtectedRoute from "./routes/ProtectedRoutes";
 import Cart from "./component/Cart";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailure from "./pages/PaymentFailure";
+import RestaurantHome from "./pages/RestaurantHome";
+import RestaurantProtectedRoute from "./routes/RestaurantProtectedRoute";
+import AddFoodItem from "./pages/AddFoodItem";
+import RestaurantPublicRoute from "./routes/RestaurantPublicRoute";
+import RestaurantLogin from "./pages/RestaurantLogin";
+import NotFound from "./pages/NotFound";
+import EditFoodItem from "./pages/EditFoodItem";
 const App = () => {
   return (
     <>
@@ -38,6 +45,38 @@ const App = () => {
             <PublicRoutes>
               <Login />
             </PublicRoutes>
+          }
+        />
+        <Route
+          path="/restaurant-dashboard"
+          element={
+            <RestaurantProtectedRoute>
+              <RestaurantHome />
+            </RestaurantProtectedRoute>
+          }
+        />
+        <Route
+          path="/login/restaurant"
+          element={
+            <RestaurantPublicRoute>
+              <RestaurantLogin />
+            </RestaurantPublicRoute>
+          }
+        />
+        <Route
+          path="/restaurant-dashboard/add-food"
+          element={
+            <RestaurantProtectedRoute>
+              <AddFoodItem />
+            </RestaurantProtectedRoute>
+          }
+        />
+        <Route
+          path="/restaurant-dashboard/edit-food/:foodId"
+          element={
+            <RestaurantProtectedRoute>
+              <EditFoodItem />
+            </RestaurantProtectedRoute>
           }
         />
         <Route
@@ -88,6 +127,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <ToastContainer />
     </>

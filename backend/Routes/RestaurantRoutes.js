@@ -9,7 +9,7 @@ import { authMiddleware } from "./../Middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/add-restaurant", authMiddleware, addRestaurantController);
+router.post("/add-restaurant", addRestaurantController);
 router.get("/get-all-restaurant", authMiddleware, FetchAllRestaurantController);
 router.get("/get-restaurant/:id", authMiddleware, getRestaurantController);
 

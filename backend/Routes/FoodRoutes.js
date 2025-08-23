@@ -1,6 +1,8 @@
 import express from "express";
 import {
   AddfoodController,
+  deleteFoodController,
+  editFoodController,
   fetchCategoryController,
   fetchFoodController,
   getAllFoodController,
@@ -25,5 +27,13 @@ router.get(
   authMiddleware,
   getFoodByCategoryController
 );
+router.patch(
+  "/edit/:id",
+  authMiddleware,
+  upload.single("image"),
+  editFoodController
+);
+
+router.delete("/delete/:foodId", authMiddleware, deleteFoodController);
 
 export default router;

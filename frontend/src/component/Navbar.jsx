@@ -12,13 +12,13 @@ const Navbar = () => {
   const { backendUrl, setFood } = useContext(AppContext);
   const [isProfileClick, setIsProfileClick] = useState(false);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token") || "";
+  const token = localStorage.getItem("userToken") || "";
   const [foodName, setFoodName] = useState("");
   const [search, setSearch] = useState([]);
 
   const handleLogin = async () => {};
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("userToken");
     navigate("/login");
   };
 

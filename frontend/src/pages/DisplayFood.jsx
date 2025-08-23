@@ -11,10 +11,10 @@ const DisplayFood = () => {
   const { category } = useParams();
   const navigate = useNavigate();
 
-  const { backendUrl } = useContext(AppContext);
+  const { backendUrl, assignFoodValue } = useContext(AppContext);
 
   const [foods, setFoods] = useState([]);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("userToken");
 
   const fetchFood = async () => {
     const { data } = await axios.get(
@@ -34,6 +34,7 @@ const DisplayFood = () => {
 
   const handleFood = (food) => {
     localStorage.setItem("selectedFood", JSON.stringify(food));
+    assignFoodValue(food);
     navigate(`/restaurant/${food.restaurantId}`);
   };
   return (
