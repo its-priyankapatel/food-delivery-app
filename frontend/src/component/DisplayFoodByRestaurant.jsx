@@ -75,12 +75,12 @@ const DisplayFoodRestaurant = () => {
 
   return (
     <div className="h-auto w-full">
-      <h1 className="text-4xl text-center font-semibold text-primary text-shadow-2xs text-shadow-black py-10 bg-secondary selection:text-tertiary selection:bg-primary h-28">
+      <h1 className="text-xl md:text-4xl text-center font-semibold text-primary text-shadow-2xs text-shadow-black py-5 md:py-10 bg-secondary selection:text-tertiary selection:bg-primary h-14 md:h-28">
         Delicious Picks Just for You
       </h1>
       <div className="w-full h-auto bg-primary">
-        <div className="w-[74%] h-full m-auto mt-5 py-10">
-          <div className="grid grid-cols-3 gap-6">
+        <div className="w-full md:w-[74%] h-full md:m-auto mt-5 py-5 md:py-10 flex justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
             {allRestaurant.map((restaurant, index) => {
               const foodId = restaurant.food?.[0];
               const food = foodDetails[foodId];
@@ -89,27 +89,27 @@ const DisplayFoodRestaurant = () => {
                 <div
                   key={index}
                   onClick={() => switchRestaurant(restaurant)}
-                  className="h-85 w-85 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300 cursor-pointer mx-4"
+                  className="h-70 md:h-85 w-74 md:w-85 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300 cursor-pointer mx-4"
                 >
-                  <div className="">
+                  <div className="h-full w-full">
                     <div
-                      className="h-60 w-80 rounded-xl m-auto mt-2 bg-center bg-no-repeat bg-cover"
+                      className="h-40 md:h-60 w-70 md:w-80 rounded-xl m-auto mt-2 bg-center bg-no-repeat bg-cover"
                       style={{ backgroundImage: `url(${food?.image})` }}
                     ></div>
-                    <div className="h-30 w-80 ml-2 mt-3">
-                      <div className="flex justify-between mx-1">
+                    <div className="h-28 md:h-23 w-70 md:w-80 ml-2 mt-1">
+                      <div className="flex justify-between mx-1 pt-2">
                         <p className="text-md font-semibold">
                           {restaurant.name}
                         </p>
-                        <p className="flex gap-1 rounded-sm px-1 text-white bg-secondary">
-                          {restaurant.rating} <IoStar className="mt-1" />
+                        <p className="flex gap-1 h-7 w-12 justify-center items-center rounded-sm px-1 text-white bg-secondary">
+                          {restaurant.rating} <IoStar />
                         </p>
                       </div>
-                      <div className="flex justify-between mx-1 mt-2">
-                        <div className="w-54 text-gray-700 text-xs font-semibold">
+                      <div className="flex justify-between mx-1 mt-2 w-[98%]">
+                        <div className=" text-gray-700 text-xs font-semibold w-[70%] h-16 md:h-12">
                           {restaurant?.description || "No description"}
                         </div>
-                        <div className="flex justify-end w-24 h-6 text-sm text-gray-700">
+                        <div className="flex justify-end items-start w-[30%] h-6 text-xs md:text-sm text-gray-700">
                           <MdOutlineCurrencyRupee className="mt-1" />
                           {food?.price || "0"} for one
                         </div>

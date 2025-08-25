@@ -40,32 +40,32 @@ const DisplayFood = () => {
   return (
     <>
       <Navbar />
-      <div className="h-auto pb-10 w-80% mt-24 bg-primary">
-        <h1 className="text-center py-6 text-4xl font-semibold text-tertiary text-shadow-2xs selection:text-primary selection:bg-tertiary">
+      <div className="h-auto pb-10 w-80% mt-16 md:mt-18 bg-primary">
+        <h1 className="text-center py-6 text-2xl md:text-4xl font-semibold text-tertiary text-shadow-2xs selection:text-primary selection:bg-tertiary">
           {category} Delivery
         </h1>
-        <div className="grid grid-cols-4 mx-10 gap-1">
+        <div className="grid grid-cols-1 md:grid-cols-4 mx-1 md:mx-10 gap-1">
           {foods.map((val, index) => (
             <div
               onClick={() => handleFood(val)}
               key={index}
-              className="h-90 w-80  rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300  mx-3"
+              className="h-60 md:h-90 w-80 md:w-80  rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300 mx-3"
             >
-              <div className="flex flex-col gap-1 h-86 w-76 m-auto mt-2">
+              <div className="flex flex-col gap-1 h-56 md:h-86 w-76 m-auto mt-2">
                 <div
-                  className="h-60 w-76 rounded-xl m-auto mt-1 bg-cover bg-no-repeat bg-center"
+                  className="h-40 md:h-60 w-70 md:w-76 rounded-xl m-auto mt-1 bg-cover bg-no-repeat bg-center"
                   style={{ backgroundImage: `url(${val.foodImage})` }}
                 ></div>
                 <div className="h-24 w-70 ml-2 mt-1">
                   <div className="flex justify-between mx-1">
-                    <p className="text-md font-semibold">
+                    <p className="text-base md:text-lg font-semibold">
                       {val.restaurantName}
                     </p>
-                    <p className="flex gap-1 bg-secondary rounded-sm px-1 text-white">
-                      {val.rating} <IoStar className="mt-1" />
+                    <p className="flex gap-1 bg-secondary rounded-sm px-1 h-7 w-12 md:w-14 text-sm md:text-base items-center justify-center text-white">
+                      {val.rating} <IoStar className="text-sm md:text-base" />
                     </p>
                   </div>
-                  <div className="w-50 h-full  text-gray-700 text-xs font-semibold pl-1 mt-1">
+                  <div className="w-50 h-full  text-gray-600 text-xs md:text-sm font-semibold pl-1 mt-1">
                     {val.description}
                   </div>
                 </div>

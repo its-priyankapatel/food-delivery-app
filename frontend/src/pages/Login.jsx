@@ -39,10 +39,14 @@ const Login = () => {
     <>
       <div className="w-full h-screen flex flex-col bg-primary md:flex-row">
         {/* First Section */}
-        <img className=" w-1/2 object-cover" src={SignUp} alt="Signup Visual" />
+        <img
+          className="order-2 md:order-1 w-full h-[40%] md:h-full md:w-1/2 object-cover"
+          src={SignUp}
+          alt="Signup Visual"
+        />
         {/* Second Section */}
-        <div className="flex flex-col gap-2 md:gap-4 w-full md:w-1/2 justify-center items-center p-8 h-[70%] md:h-full">
-          <h3 className="text-2xl font-semibold text-tertiary text-center selection:text-tertiary selection:bg-primary">
+        <div className="order-1 md:order-2 flex flex-col gap-2 md:gap-4 w-full md:w-1/2 justify-center items-center p-8 h-[70%] md:h-full">
+          <h3 className="text-xl md:text-2xl font-semibold text-tertiary text-center selection:text-tertiary selection:bg-primary">
             Welcome Back! Login to your account
           </h3>
 

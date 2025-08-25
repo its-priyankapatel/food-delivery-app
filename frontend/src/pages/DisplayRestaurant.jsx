@@ -67,11 +67,11 @@ const DisplayRestaurant = () => {
   return (
     <>
       <Navbar />
-      <div className="h-90 w-full bg-secondary p-5 flex mt-24">
-        <div className="h-80 w-80 flex-col">
+      <div className="h-[600px] md:h-90 w-full bg-secondary p-5 flex mt-14 md:mt-18 flex-col md:flex-row ">
+        <div className="h-50 md:h-80 w-full md:w-80 flex-col items-center">
           {foodOne.foodImage ? (
             <div
-              className="h-70 w-80 rounded-xl border-4 border-white bg-no-repeat bg-cover bg-center"
+              className="h-48 md:h-72 w-48 md:w-80 rounded-xl border-4 border-white bg-no-repeat bg-cover bg-center mx-auto"
               style={{ backgroundImage: `url(${foodOne.foodImage})` }}
             ></div>
           ) : (
@@ -79,15 +79,15 @@ const DisplayRestaurant = () => {
               <Spinner />
             </div>
           )}
-          <h1 className="text-2xl font-bold text-primary text-center">
+          <h1 className="text-xl md:text-2xl font-bold text-primary text-center">
             {foodOne?.name}
           </h1>
         </div>
-        <div className="h-100 w-180 pt-1 pl-15 selection:text-tertiary selection:bg-primary">
-          <p className="font-semibold text-3xl text-primary text-shadow-2xs ">
+        <div className="h-100 w-180 pt-3 md:pt-0 pl-2 md:pl-15 selection:text-tertiary selection:bg-primary">
+          <p className="font-semibold text-2xl md:text-3xl text-primary text-shadow-2xs ">
             Explore Restaurant Info
           </p>
-          <p className="text-2xl font-medium pt-4 text-primary text-shadow-2xs">
+          <p className="text-xl md:text-2xl font-medium pt-4 text-primary text-shadow-2xs">
             {restaurantData.name}
           </p>
           <p className="text-md pt-3  text-primary text-shadow-2xs">
@@ -111,41 +111,43 @@ const DisplayRestaurant = () => {
         </div>
       </div>
       <div className="h-auto w-full bg-primary">
-        <h1 className="my-8 text-center text-3xl font-semibold text-tertiary selection:text-primary selection:bg-tertiary bg-primary py-6">
+        <h1 className="text-center text-2xl md:text-3xl font-semibold text-tertiary selection:text-primary selection:bg-tertiary bg-primary py-3 md:py-6">
           Dishes Recommended at {restaurantData.name}
         </h1>
         <div />
         <div className="h-auto w-full bg-primary">
-          <div className="flex flex-col justify-center items-center gap-4">
+          <div className="flex flex-col justify-center items-center gap-2 md:gap-4 px-1 md:px-0 ">
             {allFood.map((val, index) => (
               <div
                 onClick={() => handleClick(val)}
                 key={index}
-                className="h-50 w-[60%] flex justify-center items-center relative rounded-xl shadow-lg hover:shadow-xs hover:shadow-gray-400 duration-300 cursor-pointer mx-3"
+                className="h-40 md:h-50 w-full md:w-[60%] flex justify-center items-center relative rounded-xl shadow-lg hover:shadow-xs hover:shadow-gray-400 duration-300 cursor-pointer mx-3"
               >
                 {val.inStock === false && (
-                  <div className="bg-gray-700/30 absolute h-full w-full rounded-xl z-10 flex justify-center items-center text-lg text-bold text-gray-900 font-poppins">
+                  <div className="bg-gray-700/30 absolute h-full w-full rounded-xl z-10 flex justify-center items-center text-sm md:text-lg text-bold text-gray-900 font-poppins">
                     Unavailable
                   </div>
                 )}
-                <div className="h-[90%] w-[65%] p-4 flex flex-col gap-3">
-                  <div className="text-xl font-bold text-tertiary">
+                <div className="h-[90%] w-[60%] md:w-[65%] p-1 md:p-4 flex flex-col gap-2 md:gap-3">
+                  <div className="text-lg md:text-xl font-bold text-tertiary">
                     {val.name}
                   </div>
-                  <div className="text-gray-800 font-bold text-md flex ">
+                  <div className="text-gray-800 font-bold text-sm md:text-lg flex ">
                     <MdOutlineCurrencyRupee className="mt-1 font-bold" />
                     {val.price}
                   </div>
-                  <div className="text-sm text-gray-700">{val.description}</div>
+                  <div className="text-xs md:text-sm text-gray-700">
+                    {val.description}
+                  </div>
                 </div>
-                <div className="h-[90%] w-[30%] flex flex-col justify-center items-center relative">
+                <div className="h-[90%] w-[37%] md:w-[30%] flex flex-col justify-center items-center relative">
                   <div
-                    className="h-[70%] w-[60%] rounded-xl m-auto mt-2 bg-no-repeat bg-center bg-cover"
+                    className="h-[70%] w-[85%] md:w-[60%] rounded-xl m-auto mt-2 bg-no-repeat bg-center bg-cover"
                     style={{ backgroundImage: `url(${val.image})` }}
                   ></div>
                   <button
                     onClick={() => handleAddCart(val._id)}
-                    className="h-10 w-26 absolute bottom-7 text-secondary font-bold cursor-pointer rounded-md bg-primary text-md shadow-md shadow-gray-400 hover:bg-gray-200"
+                    className="h-8 md:h-10 w-18 md:w-26 absolute bottom-5 md:bottom-7 text-secondary font-bold cursor-pointer rounded-md bg-primary text-sm md:text-lg shadow-md shadow-gray-400 hover:bg-gray-200"
                   >
                     ADD
                   </button>

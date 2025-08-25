@@ -49,32 +49,34 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="h-24 flex items-center justify-between px-4 bg-secondary fixed w-full z-20 top-0 left-0 ">
-        <div className="flex gap-2">
+      <div className="h-16 md:h-18 flex items-center justify-between md:px-4 bg-secondary fixed w-full z-20 top-0 left-0 ">
+        <div className="flex items-center gap-1 md:gap-2 w-28 md:w-46">
           <img
             onClick={() => navigate("/")}
-            className="w-20 cursor-pointer"
+            className="w-13 md:w-16 h-13 md:h-16 cursor-pointer"
             src={food_logo}
             alt=""
           />
-          <div className=" flex flex-col justify-center w-20">
-            <h1 className=" text-2xl font-bold text-primary ">FOOD</h1>
-            <p className=" font-sans text-right text-primary text-md font-semibold">
+          <div className=" flex flex-col justify-center w-22">
+            <h1 className="text-xs md:text-2xl font-bold text-primary ">
+              FOOD
+            </h1>
+            <p className="font-sans text-right text-primary text-xs md:text-lg font-semibold">
               Delivery
             </p>
           </div>
         </div>
-        <div className="flex items-center border-b-2 h-10  border-primary ">
-          <IoIosSearch className="text-2xl text-primary font-bold" />
+        <div className="flex items-center w-36 md:w-68 border-b-2 h-8 md:h-10  border-primary">
+          <IoIosSearch className="size-3 md:size-5 text-primary" />
           <input
-            className="w-68 h-10 pl-1 outline-none text-primary placeholder:text-primary text-md"
+            className="w-30 md:w-68 h-8 md:h-10 pl-1 outline-none text-primary placeholder:text-primary text-xs md:text-base"
             type="text"
-            placeholder="Search for restaurants and food"
+            placeholder="Search for food"
             onChange={(e) => handleSearch(e.target.value)}
           />
         </div>
         {Array.isArray(search) && search.length > 0 && (
-          <div className="absolute top-20 left-1/2 transform -translate-x-1/2 bg-white w-96 rounded shadow-lg p-4 z-50">
+          <div className="absolute top-20 left-1/2 transform -translate-x-1/2 w-96 rounded shadow-lg p-4 z-50 bg-primary">
             {search.map((item, index) => (
               <div
                 key={item._id || index}
@@ -96,13 +98,13 @@ const Navbar = () => {
             ))}
           </div>
         )}
-        <div className="flex w-30 items-center gap-10">
+        <div className="flex w-16 md:w-30 h-12 md:h-16 justify-around md:justify-center items-center gap-1 md:gap-10">
           <BsCart4
             onClick={() => navigate("/add-cart")}
-            className="w-10 h-10 text-primary cursor-pointer"
+            className="w-6 md:w-10 h-6 md:h-10 text-primary cursor-pointer"
           />
           <FaCircleUser
-            className="h-10 w-10 text-primary cursor-pointer"
+            className="w-6 md:w-10 h-6 md:h-10 text-primary cursor-pointer"
             onClick={() => setIsProfileClick((prev) => !prev)}
           />
           {isProfileClick && (
