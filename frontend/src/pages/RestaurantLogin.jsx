@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 import App from "../App";
 import { AppContext } from "../context/AppContext";
 import { toast } from "react-toastify";
-
+import BG from "../component/BG/BG";
+import { PiChefHatBold } from "react-icons/pi";
+import { AiOutlineMail } from "react-icons/ai";
+import { MdLockOutline } from "react-icons/md";
 const RestaurantLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,61 +38,84 @@ const RestaurantLogin = () => {
   };
   return (
     <>
-      <div className="w-full h-screen flex flex-col bg-primary md:flex-row">
-        {/* First Section */}
-        {/* <img className="w-1/2 object-cover" src={SignUp} alt="Signup Visual" /> */}
-        <div className="md:w-1/2 w-full md:border-r-2 border-b-2 h-[30%] md:h-full"></div>
-        {/* Second Section */}
-        <div className="flex flex-col gap-2 md:gap-4 w-full md:w-1/2 justify-center items-center p-8 h-[70%] md:h-full">
-          <h3 className="text-2xl font-semibold text-tertiary text-center selection:text-tertiary selection:bg-primary">
-            Welcome Chef! Login to your restaurant account
-          </h3>
+       <div className="relative w-full h-screen md:h-auto flex justify-center font-poppins">
+        <div className="fixed h-screen w-full -z-10">
+          <BG />
+        </div>
+        <div className="flex flex-col w-full md:w-1/2 items-center py-4 px-4 md:px-8 h-full md:h-auto bg-white ">
+          <div className="w-full flex flex-col justify-center items-center gap-1">
+            <div className="h-18 w-18 rounded-full bg-yellow-400 flex justify-center items-center">
+              <PiChefHatBold className="text-5xl" />
+            </div>
+            <h3 className="text-3xl font-extrabold text-black">Welcome Back Chef!</h3>
+            <p className="text-sm text-gray-600">
+              Sign in to your account to continue serving
+            </p>
+          </div>
+          <div className="w-full md:w-[70%] flex flex-col gap-4 md:gap-2 justify-center items-center p-6 rounded-lg border border-[rgba(0,0,0,0.3)] mt-8 md:mt-5">
+            <div className="w-full text-center">
+              <h1 className="text-2xl font-extrabold text-black">Login</h1>
+              <p className="text-sm text-gray-600 mt-2">
+                Enter your credentials to access your account
+              </p>
+            </div>
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col justify-center w-full gap-4 mt-2"
+            >
+              <div className="w-full">
+                <label className="text-sm font-semibold text-gray-700">
+                  Email Address
+                </label>
+                <div className="flex items-center h-10 border border-[rgba(0,0,0,0.1)] rounded-lg p-2 gap-2 focus-within:shadow-[0px_0px_5px_2px_rgba(0,0,0,0.1)]">
+                  <AiOutlineMail className="text-base text-gray-700" />
+                  <input
+                  required
+                    type="email"
+                    placeholder="Enter your email"
+                    className="outline-none text-sm w-full"
+                  />
+                </div>
+              </div>
+              <div className="w-full">
+                <label className="text-sm font-semibold text-gray-700">
+                  Password
+                </label>
+                <div className="flex items-center h-10 border border-[rgba(0,0,0,0.1)] rounded-lg p-2 gap-2 focus-within:shadow-[0px_0px_5px_2px_rgba(0,0,0,0.1)]">
+                  <MdLockOutline className="text-base text-gray-700" />
+                  <input
+                  required
+                    type="text"
+                    placeholder="Enter your Password"
+                    className="outline-none text-sm w-full"
+                  />
+                </div>
+              </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-6 w-[70%] md:w-1/2"
-          >
-            <input
-              onChange={(e) => setEmail(e.target.value)}
-              className="h-8 md:h-10 pl-2 text-md  text-sm md:text-base bg-primary outline-none rounded-sm text-tertiary placeholder:text-tertiary border border-tertiary"
-              type="email"
-              value={email}
-              placeholder="E-mail"
-            />
-            <input
-              onChange={(e) => setPassword(e.target.value)}
-              className="h-10 pl-2 outline-none rounded-sm text-sm md:text-base  text-tertiary placeholder:text-tertiary border border-tertiary"
-              type="password"
-              value={password}
-              placeholder="Password"
-            />
-
+              <button
+                onClick={handleAuthentication}
+                type="submit"
+                className="h-10 bg-orange-400 text-black font-semibold rounded-sm  text-sm md:text-base cursor-pointer"
+              >
+                Login
+              </button>
+            </form>
+            <div className="w-full flex gap-1 items-center">
+              <div className="h-[1px] w-1/2 bg-gray-700"></div>
+              <p className="text-sm text-gray-700">OR</p>
+              <div className="h-[1px] w-1/2 bg-gray-700"></div>
+            </div>
             <button
-              onClick={handleAuthentication}
-              type="submit"
-              className="h-10 bg-tertiary text-white font-semibold rounded-sm  text-sm md:text-base cursor-pointer"
-            >
-              Login
-            </button>
-          </form>
-          <p className="pl-2 text-tertiary text-sm md:text-base">
-            Don't have an account?{" "}
-            <span
-              className="cursor-pointer text-tertiary font-semibold underline"
-              onClick={() => navigate("/sign-up")}
-            >
-              Sign up here
-            </span>
-          </p>
-          <p className="text-sm md:text-base text-tertiary">
-            Login as a{" "}
-            <span
-              className="font-semibold underline cursor-pointer"
               onClick={() => navigate("/login")}
+              className="h-10 w-full bg-gray-700 text-white font-semibold rounded-sm  text-sm md:text-base cursor-pointer"
             >
-              User
-            </span>
-          </p>
+              Login as User
+            </button>
+          </div>
+          <p className="mt-3 text-sm text-gray-700">New Restaurant? <span
+          onClick={()=>navigate('/register/restaurant')}
+           className="cursor-pointer text-orange-400 font-extrabold">Sign Up</span></p>
+          <p className="text-[11px] text-gray-700 font-medium mt-3">By signing in, you agree to our Terms of Service and Privacy Policy</p>
         </div>
       </div>
     </>

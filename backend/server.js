@@ -31,6 +31,6 @@ app.use("/api/search", SearchRoutes);
 app.use("/api/payment", PaymentRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT,() => {
   console.log(colors.bgGreen(`server is running on PORT ${process.env.PORT}`));
 });

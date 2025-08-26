@@ -55,20 +55,20 @@ const AllFood = () => {
   };
 
   return (
-    <div className="h-[260px] md:h-[350px] px-4 md:px-34 py-1 bg-primary">
-      <h1 className="my-6 md:my-10 text-center text-xl md:text-4xl font-semibold text-tertiary selection:text-primary selection:bg-tertiary">
+    <div className="h-[350px] px-4 md:px-20 bg-primary py-1">
+      <h1 className="my-10 text-center text-2xl  md:text-4xl font-semibold text-tertiary selection:text-primary selection:bg-tertiary">
         Inspiration for your first order
       </h1>
 
       <div className="relative">
         {/* Left Arrow */}
         {showLeftBlur && (
-          <div className="pointer-events-none absolute left-7 top-0 bottom-0 w-14 bg-gradient-to-r from-white to-transparent z-10" />
+          <div className="pointer-events-none absolute md:left-7 top-0 bottom-0 w-14 bg-gradient-to-r from-white to-transparent z-10" />
         )}
 
         {/* Right Blur */}
         {showRightBlur && (
-          <div className="pointer-events-none absolute right-7 top-0 bottom-0 w-14 bg-gradient-to-l from-white to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 md:right-7 top-0 bottom-0 w-14 bg-gradient-to-l from-white to-transparent z-10" />
         )}
         <button
           className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 shadow p-2 rounded-full cursor-pointer"
@@ -86,13 +86,13 @@ const AllFood = () => {
             <div
               onClick={() => navigate(`/all-food/${val.name}`)}
               key={index}
-              className="min-w-[140px] md:min-w-[180px] text-center"
+              className="md:min-w-[180px] text-center"
             >
               <div
-                className="w-30 md:w-40 h-30 md:h-40 rounded-full object-cover mx-auto bg-cover bg-no-repeat bg-center"
+                className="w-20 md:w-40 h-20 md:h-40 rounded-full object-cover mx-auto bg-cover bg-no-repeat bg-center"
                 style={{ backgroundImage: `url(${val.image}) ` }}
               ></div>
-              <h3 className="mt-1 md:mt-2 font-medium text-tertiary text-shadow-2xs shadow-black">
+              <h3 className="mt-2 font-medium text-tertiary text-shadow-2xs shadow-black text-sm md:text-base">
                 {val.name}
               </h3>
             </div>

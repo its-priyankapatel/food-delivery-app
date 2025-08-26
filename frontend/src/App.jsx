@@ -71,6 +71,7 @@ const App = () => {
             </RestaurantProtectedRoute>
           }
         />
+       
         <Route
           path="/restaurant-dashboard/edit-food/:foodId"
           element={

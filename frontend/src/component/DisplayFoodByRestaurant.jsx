@@ -6,7 +6,7 @@ import { MdOutlineCurrencyRupee } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const DisplayFoodRestaurant = () => {
-  const { backendUrl } = useContext(AppContext);
+  const { backendUrl,currencySymbol } = useContext(AppContext);
   const navigate = useNavigate();
   const token = localStorage.getItem("userToken") || "";
   const [allRestaurant, setAllRestaurant] = useState([]);
@@ -74,58 +74,45 @@ const DisplayFoodRestaurant = () => {
   };
 
   return (
-    <div className="h-auto w-full">
-      <h1 className="text-xl md:text-4xl text-center font-semibold text-primary text-shadow-2xs text-shadow-black py-5 md:py-10 bg-secondary selection:text-tertiary selection:bg-primary h-14 md:h-28">
+    <div className="h-auto w-full font-poppins">
+      <h1 className="text-2xl md:text-4xl text-center font-semibold text-primary text-shadow-2xs text-shadow-black py-4 md:py-10 bg-secondary selection:text-tertiary selection:bg-primary h-14 md:h-28">
         Delicious Picks Just for You
       </h1>
-      <div className="w-full h-auto bg-primary">
-        <div className="w-full md:w-[74%] h-full md:m-auto mt-5 py-5 md:py-10 flex justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6">
-            {allRestaurant.map((restaurant, index) => {
-              const foodId = restaurant.food?.[0];
-              const food = foodDetails[foodId];
+      <div className="w-full h-auto bg-primary p-4 md:p-24 ">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+          {allRestaurant.map((restaurant, index) => {
+            const foodId = restaurant.food?.[0];
+            const food = foodDetails[foodId];
 
-              return (
-                <div
-                  key={index}
-                  onClick={() => switchRestaurant(restaurant)}
-                  className="h-70 md:h-85 w-74 md:w-85 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300 cursor-pointer mx-4"
-                >
-                  <div className="h-full w-full">
-                    <div
-                      className="h-40 md:h-60 w-70 md:w-80 rounded-xl m-auto mt-2 bg-center bg-no-repeat bg-cover"
-                      style={{ backgroundImage: `url(${food?.image})` }}
-                    ></div>
-                    <div className="h-28 md:h-23 w-70 md:w-80 ml-2 mt-1">
-                      <div className="flex justify-between mx-1 pt-2">
-                        <p className="text-md font-semibold">
-                          {restaurant.name}
-                        </p>
-                        <p className="flex gap-1 h-7 w-12 justify-center items-center rounded-sm px-1 text-white bg-secondary">
-                          {restaurant.rating} <IoStar />
-                        </p>
-                      </div>
-                      <div className="flex justify-between mx-1 mt-2 w-[98%]">
-                        <div className=" text-gray-700 text-xs font-semibold w-[70%] h-16 md:h-12">
-                          {restaurant?.description || "No description"}
-                        </div>
-                        <div className="flex justify-end items-start w-[30%] h-6 text-xs md:text-sm text-gray-700">
-                          <MdOutlineCurrencyRupee className="mt-1" />
-                          {food?.price || "0"} for one
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+            return (
+              <div
+                key={index}
+                onClick={() => switchRestaurant(restaurant)}
+                className="h-auto md:h-80 w-42 md:w-85 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300 cursor-pointer flex flex-col gap-1 md:gap-4"
+              >
+              <div className="h-[60%] w-full">
+                <img src={food?.image} alt={restaurant.name} className="h-full w-full object-cover rounded-t-xl" />
+              </div>
+              <div className="flex justify-between items-center w-full px-2 md:px-4">
+                <p className="font-semibold text-xs md:font-bold md:text-base">{restaurant.name}</p>
+                <div className="flex p-1 gap-1 justify-center items-center rounded-sm bg-secondary text-white font-semibold text-[11px] md:text-sm">
+                  <p >{restaurant.rating}</p>
+                  <IoStar/>
                 </div>
-              );
-            })}
-          </div>
-          {allRestaurant.length === 0 && (
-            <p className="text-center text-gray-600 mt-10">
-              No restaurants with food available.
-            </p>
-          )}
+              </div>
+              <div className="flex items-center justify-between px-2 md:px-4 w-full">
+                <p className="text-[10px] md:text-xs text-gray-700">{restaurant.description}</p>
+                <p className="text-xs font-semibold">{currencySymbol}{food?.price}</p>
+              </div>
+              </div>
+            );
+          })}
         </div>
+        {allRestaurant.length === 0 && (
+          <p className="text-center text-gray-600 mt-10">
+            No restaurants with food available.
+          </p>
+        )}
       </div>
     </div>
   );
