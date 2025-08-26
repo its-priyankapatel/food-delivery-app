@@ -1,0 +1,27 @@
+.row1 {
+    animation: slideX 20s ease-in-out infinite alternate;
+}
+
+@keyframes slideX {
+    from {
+        transform: translateX(-50px);
+    }
+
+    to {
+        transform: translateX(50px);
+    }
+}
+
+@keyframes slide2 {
+    form {
+        transform: translate(50px);
+    }
+
+    to {
+        transform: translate(-50px);
+    }
+}
+
+.row2 {
+    animation: slide2 20s ease-in-out infinite alternate;
+}
