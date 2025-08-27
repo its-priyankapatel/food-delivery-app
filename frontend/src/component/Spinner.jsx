@@ -1,6 +1,6 @@
 import "./Spinner.css";
 const Spinner = () => {
-  return <span class="loader"></span>;
+  return <span className="loader"></span>;
 };
 
 export default Spinner;

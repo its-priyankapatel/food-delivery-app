@@ -53,23 +53,23 @@ const Navbar = () => {
         <div className="flex">
           <img
             onClick={() => navigate("/")}
-            className="h-10 cursor-pointer"
+            className="h-10 md:h-14 cursor-pointer"
             src={food_logo}
             alt=""
           />
           <div className="flex flex-col items-end h-10">
             <h1 className="text-base md:text-xl font-bold text-primary">FOOD</h1>
-            <p className="text-primary text-xs font-semibold">
+            <p className="text-primary text-xs md:text-sm font-semibold">
               Delivery
             </p>
           </div>
         </div>
-        <div className="flex items-center border-b-2 h-10  border-primary w-50 md:w-86">
+        <div className="flex items-center border-b-2 h-8 border-primary">
           <IoIosSearch className="text-xl md:text-2xl text-primary font-bold" />
           <input
-            className="w-full md:w-68 h-10 pl-1 outline-none text-primary placeholder:text-primary text-xs md:text-base"
+            className="w-28 md:w-36 h-full pl-1 outline-none text-primary placeholder:text-primary text-xs md:text-base"
             type="text"
-            placeholder="Search for restaurants & food"
+            placeholder="Search for food..."
             onChange={(e) => handleSearch(e.target.value)}
           />
         </div>

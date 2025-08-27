@@ -135,7 +135,7 @@ const Cart = () => {
                 <div className="w-[70%] h-full flex items-center py-4 pl-4 gap-8">
                   <div
                     className="h-40 w-40 bg-center bg-no-repeat bg-cover rounded-xl"
-                    style={{ backgroundImage: url(`${item.food.image}`) }}
+                    style={{ backgroundImage: `url(${item.food.image})` }}
                   ></div>
                   <div className="h-40 flex flex-col gap-2">
                     <h2 className="text-2xl font-semibold text-tertiary">
@@ -206,7 +206,7 @@ const Cart = () => {
               >
                 Pay ₹{cart.total + 40 + 4}
               </button>
-            </div>
+            </div>  
           </div>
         </div>
       )}

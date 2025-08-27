@@ -3,10 +3,11 @@ import { AppContext } from "../context/AppContext";
 import { IoMdAdd, IoIosTrendingUp } from "react-icons/io";
 import { FiPackage } from "react-icons/fi";
 import { IoSettingsOutline, IoSearch } from "react-icons/io5";
-import { BiLeaf } from "react-icons/bi";
+import { BiDotsVerticalRounded, BiLeaf } from "react-icons/bi";
 import { TbMeat } from "react-icons/tb";
 import FoodCard from "../component/FoodCard";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../component/Spinner";
 
 const RestaurantHome = () => {
   const navigate = useNavigate();
@@ -14,41 +15,28 @@ const RestaurantHome = () => {
   // Filter states
   const [filter1, setFilter1] = useState("all"); // all | in_stock | out_of_stock
   const [filter2, setFilter2] = useState("all"); // all | veg | non_veg
-
+  const [dotClicked, setDotClicked] = useState(false);
   // Handlers
   const handleFilter1Click = (filterType) => {
     setFilter1(filterType);
   };
-  if (!restaurant?.food) return <p>Loading...</p>;
+  useEffect(() => {
+    if (!restaurant?.food)
+      return (
+        <div className="h-screen w-full flex justify-center items-center bg-yellow-400">
+          <Spinner />
+        </div>
+      );
+  }, [restaurant]);
 
   const handleFilter2Click = (filterType) => {
     setFilter2(filterType);
   };
 
-  // Example of applying AND condition later
-  const getFilteredItems = () => {
-    let items = restaurant.food || [];
-
-    // Filter 1: stock
-    if (filter1 === "in_stock") {
-      items = items.filter((item) => item.inStock === true);
-    } else if (filter1 === "out_of_stock") {
-      items = items.filter((item) => item.inStock === false);
-    }
-
-    // Filter 2: type
-    if (filter2 === "veg") {
-      items = items.filter((item) => item.type === "veg");
-    } else if (filter2 === "non_veg") {
-      items = items.filter((item) => item.type === "non_veg");
-    }
-
-    return items;
-  };
   const stats = [
     {
       label: "Total Items",
-      value: (restaurant.food || []).length,
+      value: (restaurant?.food || []).length,
       icon: <FiPackage className="text-lg" />,
       color: "text-gray-700",
     },
@@ -73,7 +61,11 @@ const RestaurantHome = () => {
     },
   ];
   return (
-    <div className="bg-white w-full min-h-screen">
+    <div
+      className="bg-white w-full min-h-screen"
+      tabIndex={0}
+      onClick={() => setDotClicked(false)}
+    >
       {/* Header */}
       <div className="w-full h-16 md:h-24 bg-[#f5f5f5] border-b border-b-[#a19595b6] flex items-center px-4 md:px-20 justify-between">
         <div className="w-[60%] md:w-auto text-gray-700">
@@ -84,12 +76,35 @@ const RestaurantHome = () => {
             Manage your menu items and track inventory
           </p>
         </div>
-        <div
-          className="px-2 bg-[#006C36] flex justify-around items-center w-26 md:w-40 h-10 md:h-9 rounded-lg md:rounded-md text-white cursor-pointer font-semibold font-poppins hover:bg-[#0b8045]"
-          onClick={() => navigate("/restaurant-dashboard/add-food")}
-        >
-          <IoMdAdd className="text-white text-base md:text-xl font-extrabold" />
-          <p className="text-xs md:text-sm w-[70%] md:w-auto">Add New Item</p>
+        <div className="flex items-center gap-4">
+          <div
+            className="px-2 bg-[#006C36] flex justify-around items-center w-26 md:w-40 h-10 md:h-9 rounded-lg md:rounded-md text-white cursor-pointer font-semibold font-poppins hover:bg-[#0b8045]"
+            onClick={() => navigate("/restaurant-dashboard/add-food")}
+          >
+            <IoMdAdd className="text-white text-base md:text-xl font-extrabold" />
+            <p className="text-xs md:text-sm w-[70%] md:w-auto">Add New Item</p>
+          </div>
+          <div
+            className="cursor-pointer relative"
+            onClick={(e) => {
+              e.stopPropagation( );
+              setDotClicked(!dotClicked);
+            }}
+          >
+            <BiDotsVerticalRounded className="text-3xl" />
+            {dotClicked && (
+              <button
+                className="absolute top-9 right-2 bg-white p-1 text-sm md:text-base rounded-md font-semibold border border-[rgba(0,0,0,0.2)] shadow-[0px_0px_5px_2px_rgba(0,0,0,0.1)] cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  localStorage.removeItem("restaurantToken");
+                  navigate("/");
+                }}
+              >
+                Logout
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

@@ -29,7 +29,7 @@ import icon28 from "../../assets/icons/11.png";
 import icon29 from "../../assets/icons/12.png";
 import icon30 from "../../assets/icons/13.png";
 import icon31 from "../../assets/icons/14.png";
-import './row.css'
+import "./row.css";
 const Row = ({ reverse }) => {
   const icons = [
     icon1,
@@ -50,7 +50,19 @@ const Row = ({ reverse }) => {
     icon16,
     icon17,
     icon18,
-    icon19,icon20,icon21,icon22,icon23,icon24,icon25,icon26,icon27,icon28,icon29,icon30,icon31
+    icon19,
+    icon20,
+    icon21,
+    icon22,
+    icon23,
+    icon24,
+    icon25,
+    icon26,
+    icon27,
+    icon28,
+    icon29,
+    icon30,
+    icon31,
   ];
 
   return (
@@ -58,23 +70,13 @@ const Row = ({ reverse }) => {
       {reverse ? (
         <div className="flex gap-8 row1 mt-8">
           {icons.reverse().map((icon, index) => (
-            <img
-              key={index}
-              src={icon}
-              alt={`icon-${index}`}
-              className="h-8"
-            />
+            <img key={index} src={icon} alt={`icon-${index}`} className="h-8" />
           ))}
         </div>
       ) : (
         <div className="flex gap-8 row2 mt-8">
           {icons.map((icon, index) => (
-            <img
-              key={index}
-              src={icon}
-              alt={`icon-${index}`}
-              className="h-8"
-            />
+            <img key={index} src={icon} alt={`icon-${index}`} className="h-8" />
           ))}
         </div>
       )}

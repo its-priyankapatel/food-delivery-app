@@ -6,7 +6,7 @@ import { MdOutlineCurrencyRupee } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const DisplayFoodRestaurant = () => {
-  const { backendUrl,currencySymbol } = useContext(AppContext);
+  const { backendUrl, currencySymbol } = useContext(AppContext);
   const navigate = useNavigate();
   const token = localStorage.getItem("userToken") || "";
   const [allRestaurant, setAllRestaurant] = useState([]);
@@ -28,7 +28,6 @@ const DisplayFoodRestaurant = () => {
           (rest) => rest.food && rest.food.length > 0
         );
         setAllRestaurant(filteredRestaurants);
-
         // Collect first food IDs
         const firstIds = filteredRestaurants.map((rest) => rest.food[0]);
         setFirstFoodIds(firstIds);
@@ -67,9 +66,9 @@ const DisplayFoodRestaurant = () => {
     GetAllRestaurant();
   }, []);
 
-  const switchRestaurant = (restaurant) => {
-    console.log(restaurant);
-
+  const switchRestaurant = (restaurant, foodImage) => {
+    const restaurantWithImage = { ...restaurant, image: foodImage };
+    localStorage.setItem("food", JSON.stringify(restaurantWithImage));
     navigate(`/restaurant/${restaurant._id}`);
   };
 
@@ -87,23 +86,34 @@ const DisplayFoodRestaurant = () => {
             return (
               <div
                 key={index}
-                onClick={() => switchRestaurant(restaurant)}
+                onClick={() => switchRestaurant(restaurant, food.image)}
                 className="h-auto md:h-80 w-42 md:w-85 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300 cursor-pointer flex flex-col gap-1 md:gap-4"
               >
-              <div className="h-[60%] w-full">
-                <img src={food?.image} alt={restaurant.name} className="h-full w-full object-cover rounded-t-xl" />
-              </div>
-              <div className="flex justify-between items-center w-full px-2 md:px-4">
-                <p className="font-semibold text-xs md:font-bold md:text-base">{restaurant.name}</p>
-                <div className="flex p-1 gap-1 justify-center items-center rounded-sm bg-secondary text-white font-semibold text-[11px] md:text-sm">
-                  <p >{restaurant.rating}</p>
-                  <IoStar/>
+                <div className="h-[60%] w-full">
+                  <img
+                    src={food?.image}
+                    alt={restaurant.name}
+                    className="h-full w-full object-cover rounded-t-xl"
+                  />
                 </div>
-              </div>
-              <div className="flex items-center justify-between px-2 md:px-4 w-full">
-                <p className="text-[10px] md:text-xs text-gray-700">{restaurant.description}</p>
-                <p className="text-xs font-semibold">{currencySymbol}{food?.price}</p>
-              </div>
+                <div className="flex justify-between items-center w-full px-2 md:px-4">
+                  <p className="font-semibold text-xs md:font-bold md:text-base">
+                    {restaurant.name}
+                  </p>
+                  <div className="flex p-1 gap-1 justify-center items-center rounded-sm bg-secondary text-white font-semibold text-[11px] md:text-sm">
+                    <p>{restaurant.rating}</p>
+                    <IoStar />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between px-2 md:px-4 w-full">
+                  <p className="text-[10px] md:text-xs text-gray-700">
+                    {restaurant.description}
+                  </p>
+                  <p className="text-xs font-semibold">
+                    {currencySymbol}
+                    {food?.price}
+                  </p>
+                </div>
               </div>
             );
           })}

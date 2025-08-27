@@ -74,6 +74,7 @@ const RestaurantLogin = () => {
                     type="email"
                     placeholder="Enter your email"
                     className="outline-none text-sm w-full"
+                    onChange={(e)=>setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -85,9 +86,11 @@ const RestaurantLogin = () => {
                   <MdLockOutline className="text-base text-gray-700" />
                   <input
                   required
-                    type="text"
+                    type="password"
                     placeholder="Enter your Password"
                     className="outline-none text-sm w-full"
+                    onChange={(e)=>setPassword(e.target.value)}
+
                   />
                 </div>
               </div>

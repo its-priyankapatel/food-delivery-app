@@ -12,34 +12,23 @@ import { toast } from "react-toastify";
 import Spinner from "../component/Spinner";
 
 const DisplayRestaurant = () => {
-  const { food, setFood, backendUrl, handleAddCart, foodOne, assignFoodValue } =
-    useContext(AppContext);
-  const navigate = useNavigate();
+  const { backendUrl, handleAddCart } = useContext(AppContext);
   const { restaurantId } = useParams();
   const token = localStorage.getItem("userToken") || "";
   const [restaurantData, setRestaurantData] = useState("");
   const [allFood, setAllFood] = useState([]);
-  const [selectedFood, setSelectedFood] = useState(() => {
-    const stored = localStorage.getItem("selectedFood");
+  const [foodData, setFoodData] = useState(() => {
+    const stored = localStorage.getItem("food");
     return stored ? JSON.parse(stored) : {};
   });
 
   useEffect(() => {
-    // if (!food || Object.keys(food).length === 0) {
-    //   const storedFood = localStorage.getItem("selectedFood");
-    //   if (storedFood) {
-    //     setFood(JSON.parse(storedFood));
-    //   }
-    // }
+    window.scrollTo(0, 0);
+  }, []);
 
+  useEffect(() => {
     FetchRestaurantData();
   }, [restaurantId]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     setFood({});
-  //   };
-  // }, []);
 
   const FetchRestaurantData = async () => {
     try {
@@ -48,7 +37,6 @@ const DisplayRestaurant = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (data.success) {
-        // console.log(data.restaurant);
         setRestaurantData(data.restaurant);
         setAllFood(data.restaurant.food);
       }
@@ -59,20 +47,19 @@ const DisplayRestaurant = () => {
     }
   };
   const handleClick = (val) => {
-    setSelectedFood(val);
-    localStorage.setItem("selectedFood", JSON.stringify(val));
-    assignFoodValue(val);
+    localStorage.setItem("food", JSON.stringify(val));
+    setFoodData(val);
   };
 
   return (
     <>
       <Navbar />
-      <div className="h-[600px] md:h-90 w-full bg-secondary p-5 flex mt-14 md:mt-18 flex-col md:flex-row ">
+      <div className="h-[600px] md:h-90 w-full bg-secondary p-5 flex mt-14 md:mt-18 flex-col md:flex-row font-poppins">
         <div className="h-50 md:h-80 w-full md:w-80 flex-col items-center">
-          {foodOne.foodImage ? (
+          {foodData?.image ? (
             <div
               className="h-48 md:h-72 w-48 md:w-80 rounded-xl border-4 border-white bg-no-repeat bg-cover bg-center mx-auto"
-              style={{ backgroundImage: `url(${foodOne.foodImage})` }}
+              style={{ backgroundImage: `url(${foodData?.image})` }}
             ></div>
           ) : (
             <div className="h-full w-full rounded-xl border-4 border-white flex items-center justify-center bg-gray-500">
@@ -80,7 +67,7 @@ const DisplayRestaurant = () => {
             </div>
           )}
           <h1 className="text-xl md:text-2xl font-bold text-primary text-center">
-            {foodOne?.name}
+            {foodData?.name}
           </h1>
         </div>
         <div className="h-100 w-180 pt-3 md:pt-0 pl-2 md:pl-15 selection:text-tertiary selection:bg-primary">
@@ -121,13 +108,10 @@ const DisplayRestaurant = () => {
               <div
                 onClick={() => handleClick(val)}
                 key={index}
-                className="h-40 md:h-50 w-full md:w-[60%] flex justify-center items-center relative rounded-xl shadow-lg hover:shadow-xs hover:shadow-gray-400 duration-300 cursor-pointer mx-3"
+                className={`h-40 md:h-50 w-full md:w-[60%] flex justify-center items-center rounded-xl shadow-lg hover:shadow-xs hover:shadow-gray-400 duration-300 mx-3 ${
+                  val.inStock == false ? "cursor-not-allowed" : "cursor-pointer"
+                }`}
               >
-                {val.inStock === false && (
-                  <div className="bg-gray-700/30 absolute h-full w-full rounded-xl z-10 flex justify-center items-center text-sm md:text-lg text-bold text-gray-900 font-poppins">
-                    Unavailable
-                  </div>
-                )}
                 <div className="h-[90%] w-[60%] md:w-[65%] p-1 md:p-4 flex flex-col gap-2 md:gap-3">
                   <div className="text-lg md:text-xl font-bold text-tertiary">
                     {val.name}
@@ -142,14 +126,17 @@ const DisplayRestaurant = () => {
                 </div>
                 <div className="h-[90%] w-[37%] md:w-[30%] flex flex-col justify-center items-center relative">
                   <div
-                    className="h-[70%] w-[85%] md:w-[60%] rounded-xl m-auto mt-2 bg-no-repeat bg-center bg-cover"
+                    className={`h-[70%] w-[85%] md:w-[60%] rounded-xl m-auto mt-2 bg-no-repeat bg-center bg-cover ${
+                      val.inStock === false ? "grayscale brightness-75" : ""
+                    }`}
                     style={{ backgroundImage: `url(${val.image})` }}
                   ></div>
                   <button
+                    disabled={!val.inStock}
                     onClick={() => handleAddCart(val._id)}
-                    className="h-8 md:h-10 w-18 md:w-26 absolute bottom-5 md:bottom-7 text-secondary font-bold cursor-pointer rounded-md bg-primary text-sm md:text-lg shadow-md shadow-gray-400 hover:bg-gray-200"
+                    className="px-4 py-2 md:w-26 absolute bottom-5 md:bottom-7 text-secondary disabled:text-red-600 font-poppins font-bold cursor-pointer rounded-md bg-primary text-xs md:text-base shadow-md shadow-gray-400 hover:bg-gray-200 disabled:cursor-not-allowed disabled:bg-gray-300"
                   >
-                    ADD
+                    {val.inStock === false ? "Out of Stock" : "Add"}
                   </button>
                 </div>
               </div>

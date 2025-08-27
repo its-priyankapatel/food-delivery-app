@@ -11,7 +11,7 @@ const DisplayFood = () => {
   const { category } = useParams();
   const navigate = useNavigate();
 
-  const { backendUrl, assignFoodValue } = useContext(AppContext);
+  const { backendUrl, setFoodData } = useContext(AppContext);
 
   const [foods, setFoods] = useState([]);
   const token = localStorage.getItem("userToken");
@@ -24,7 +24,6 @@ const DisplayFood = () => {
       }
     );
     if (data.success) {
-      console.log(data.food);
       setFoods(data.food);
     }
   };
@@ -33,8 +32,13 @@ const DisplayFood = () => {
   }, []);
 
   const handleFood = (food) => {
-    localStorage.setItem("selectedFood", JSON.stringify(food));
-    assignFoodValue(food);
+    const updatedFood = {
+      ...food,
+      image: food.foodImage,
+    };
+    delete updatedFood.foodImage;
+
+    localStorage.setItem("food", JSON.stringify(updatedFood));
     navigate(`/restaurant/${food.restaurantId}`);
   };
   return (

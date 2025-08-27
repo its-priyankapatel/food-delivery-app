@@ -11,7 +11,7 @@ export const AppContextProvider = ({ children }) => {
   // --- User State ---
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState([]);
-  const [foods, setFoods] = useState([]); // all available foods
+  const [foodData, setFoodData] = useState([]); // all available foods
 
   // --- Restaurant State ---
   const [restaurant, setRestaurant] = useState(null);
@@ -88,11 +88,6 @@ export const AppContextProvider = ({ children }) => {
     fetchRestaurant();
   }, []);
 
-  let foodOne = {};
-  const assignFoodValue = (food) => {
-    foodOne = food;
-    console.log(food);
-  };
   return (
     <AppContext.Provider
       value={{
@@ -102,15 +97,12 @@ export const AppContextProvider = ({ children }) => {
         setUser,
         cart,
         setCart,
-        foods,
-        setFoods,
+        setFoodData,
         restaurant,
         setRestaurant,
         handleAddCart,
         fetchUser,
         fetchRestaurant,
-        foodOne,
-        assignFoodValue,
       }}
     >
       {children}
