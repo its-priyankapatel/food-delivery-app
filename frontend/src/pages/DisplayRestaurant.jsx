@@ -54,7 +54,7 @@ const DisplayRestaurant = () => {
   return (
     <>
       <Navbar />
-      <div className="h-[600px] md:h-90 w-full bg-secondary p-5 flex mt-14 md:mt-18 flex-col md:flex-row font-poppins">
+      <div className="h-[600px] md:h-90 w-full bg-secondary p-5 flex mt-16 flex-col md:flex-row font-poppins">
         <div className="h-50 md:h-80 w-full md:w-80 flex-col items-center">
           {foodData?.image ? (
             <div

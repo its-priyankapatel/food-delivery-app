@@ -71,39 +71,39 @@ const RegisterRestaurant = () => {
         className="flex h-screen w-full justify-center items-center bg-center bg-cover "
         style={{ backgroundImage: `url(${signup})` }}
       >
-        <div className="flex flex-col justify-center items-center h-[90%] w-[40%] backdrop-blur-md rounded-lg shadow-lg shadow-black gap-5">
+        <div className="flex flex-col justify-center items-center h-[80%] md:h-[90%] w-[95%] md:w-[40%] backdrop-blur-md rounded-lg shadow-lg shadow-black gap-5">
           <h3 className="text-2xl font-semibold text-white text-center mb-5 text-shadow-sm text-shadow-black/50 selection:bg-primary selection:text-tertiary">
             Register as a Restaurant
           </h3>
 
-          <div className="w-full h-auto  flex flex-col items-center justify-center gap-5">
+          <div className="w-full h-auto flex flex-col items-center justify-center gap-5">
             <div className="w-full flex gap-4 justify-center">
               <input
                 onChange={(e) => setName(e.target.value)}
-                className="h-10 w-[40%] pl-2  border-2 border-white outline-none rounded-md text-white placeholder:text-white focus:border-primary"
+                className="h-10 w-[45%] md:w-[40%] pl-1 md:pl-2 border-2 border-white outline-none text-sm md:text-base rounded-md text-white placeholder:text-white focus:border-primary"
                 type="text"
                 value={name}
-                placeholder="Enter Restaurant Name"
+                placeholder="Restaurant Name"
               />
               <input
                 onChange={(e) => setLocation(e.target.value)}
-                className="h-10 w-[40%] pl-2   border-2 outline-none  rounded-md text-white placeholder:text-white focus:border-primary"
+                className="h-10 w-[45%] md:w-[40%] pl-1 md:pl-2 border-2 outline-none  rounded-md text-sm md:text-base text-white placeholder:text-white focus:border-primary"
                 type="text"
                 value={location}
-                placeholder="Enter Restaurant Location"
+                placeholder="Restaurant Location"
               />
             </div>
             <div className="w-full flex gap-4 justify-center">
               <input
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-10 pl-2 w-[40%]   border-2 outline-none  rounded-md text-white placeholder:text-white focus:border-primary"
+                className="h-10 pl-1 md:pl-2 w-[45%] md:w-[40%] border-2 outline-none text-sm md:text-base rounded-md text-white placeholder:text-white focus:border-primary"
                 type="email"
                 value={email}
                 placeholder="E-mail"
               />
               <input
                 onChange={(e) => setPassword(e.target.value)}
-                className="h-10 pl-2 w-[40%]   border-2 outline-none  rounded-md text-white placeholder:text-white focus:border-primary"
+                className="h-10 pl-1 md:pl-2 w-[45%] md:w-[40%] border-2 outline-none text-sm md:text-base rounded-md text-white placeholder:text-white focus:border-primary"
                 type="password"
                 value={password}
                 placeholder="Password"
@@ -112,21 +112,21 @@ const RegisterRestaurant = () => {
             <div className="w-full flex gap-4 justify-center">
               <input
                 onChange={(e) => setMobile(e.target.value)}
-                className="h-10 w-[40%] pl-2   border-2 outline-none  rounded-md text-white placeholder:text-white focus:border-primary"
+                className="h-10 w-[45%] md:w-[40%] pl-1 md:pl-2 border-2 outline-none text-sm md:text-base rounded-md text-white placeholder:text-white focus:border-primary"
                 type="text"
                 value={mobile}
                 placeholder="Mobile"
               />
-              <input
+              {/* <input
                 onChange={(e) => SetRating(e.target.value)}
-                className="h-10 pl-2 w-[18%]   border-2 outline-none  rounded-md text-white placeholder:text-white focus:border-primary"
+                className="h-10 pl-2 w-[18%] border-2 outline-none rounded-md text-white placeholder:text-white focus:border-primary"
                 type="number"
                 value={rating}
                 placeholder="Rating"
-              />
+              /> */}
               <input
                 onChange={(e) => setTime(e.target.value)}
-                className="h-10 pl-2 w-[19%]   border-2 outline-none  rounded-md text-white placeholder:text-white focus:border-primarys"
+                className="h-10 pl-1 md:pl-2 w-[45%] text-sm md:text-base md:w-[40%] border-2 outline-none rounded-md text-white placeholder:text-white focus:border-primarys"
                 type="text"
                 value={time}
                 placeholder="Time"
@@ -134,14 +134,14 @@ const RegisterRestaurant = () => {
             </div>
             <textarea
               onChange={(e) => setDesription(e.target.value)}
-              className="h-16 w-[82%] pl-2   border-2 outline-none  rounded-md text-white placeholder:text-white focus:border-primary"
+              className="h-16 w-[95%] md:w-[82%] text-sm md:text-base pl-1 md:pl-2 border-2 outline-none rounded-md text-white placeholder:text-white focus:border-primary"
               type="text"
               value={description}
               placeholder="Description"
             />
             <button
               onClick={registerRestaurant}
-              className="h-10 w-24 bg-primary text-tertiary font-semibold text-lg  rounded-md cursor-pointer focus:border-primary"
+              className="h-9 md:h-9 w-22 md:w-24 bg-primary text-tertiary font-semibold text-base rounded-md cursor-pointer focus:border-primary transition duration-300 md:duration-600 active:opacity-70"
             >
               Register
             </button>

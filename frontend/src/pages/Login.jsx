@@ -25,7 +25,7 @@ const Login = () => {
         password,
       });
       if (data.success) {
-        toast.success(data.message);
+        toast.success("User Logged In Successfully");
         localStorage.setItem("userToken", data.token);
         setEmail("");
         setPassword("");
@@ -33,7 +33,7 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Error in User Login");
+      toast.error("Something went wrong, Please login again");
     }
   };
   return (
@@ -70,8 +70,8 @@ const Login = () => {
                 <div className="flex items-center h-10 border border-[rgba(0,0,0,0.1)] rounded-lg p-2 gap-2 focus-within:shadow-[0px_0px_5px_2px_rgba(0,0,0,0.1)]">
                   <AiOutlineMail className="text-base text-gray-700" />
                   <input
-                  onChange={(e)=>setEmail(e.target.value)}
-                  required
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                     type="email"
                     placeholder="Enter your email"
                     className="outline-none text-sm w-full"
@@ -85,8 +85,8 @@ const Login = () => {
                 <div className="flex items-center h-10 border border-[rgba(0,0,0,0.1)] rounded-lg p-2 gap-2 focus-within:shadow-[0px_0px_5px_2px_rgba(0,0,0,0.1)]">
                   <MdLockOutline className="text-base text-gray-700" />
                   <input
-                  onChange={(e)=>setPassword(e.target.value)}
-                  required
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                     type="password"
                     placeholder="Enter your Password"
                     className="outline-none text-sm w-full"
@@ -97,7 +97,7 @@ const Login = () => {
               <button
                 onClick={handleAuthentication}
                 type="submit"
-                className="h-10 bg-orange-400 text-black font-semibold rounded-sm  text-sm md:text-base cursor-pointer"
+                className="h-10 bg-orange-400 text-black font-semibold rounded-sm  text-sm md:text-base cursor-pointer transition duration-300 md:duration-600 active:opacity-70"
               >
                 Login
               </button>
@@ -114,10 +114,18 @@ const Login = () => {
               Login as Restaurant
             </button>
           </div>
-          <p className="mt-3 md:mt-3 text-sm text-gray-700">New User? <span
-          onClick={()=>navigate('/sign-up')}
-           className="cursor-pointer font-bold text-orange-400">Sign Up</span></p>
-          <p className="text-[11px] text-gray-700 font-medium mt-3">By signing in, you agree to our Terms of Service and Privacy Policy</p>
+          <p className="mt-3 md:mt-3 text-sm text-gray-700">
+            New User?{" "}
+            <span
+              onClick={() => navigate("/sign-up")}
+              className="cursor-pointer font-bold text-orange-400"
+            >
+              Sign Up
+            </span>
+          </p>
+          <p className="text-[11px] text-gray-700 font-medium mt-3">
+            By signing in, you agree to our Terms of Service and Privacy Policy
+          </p>
         </div>
       </div>
     </>

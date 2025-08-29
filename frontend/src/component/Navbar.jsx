@@ -49,8 +49,8 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="h-14 md:h-16 flex items-center justify-between px-2 fixed w-full z-20 top-0 left-0 font-poppins bg-secondary">
-        <div className="flex">
+      <div className="h-14 md:h-16 flex items-center justify-between px-1 md:px-2 fixed w-full z-20 top-0 left-0 font-poppins bg-secondary">
+        <div className="flex gap-1">
           <img
             onClick={() => navigate("/")}
             className="h-10 md:h-14 cursor-pointer"
@@ -58,16 +58,18 @@ const Navbar = () => {
             alt=""
           />
           <div className="flex flex-col items-end h-10">
-            <h1 className="text-base md:text-xl font-bold text-primary">FOOD</h1>
+            <h1 className="text-base md:text-xl font-bold text-primary">
+              FOOD
+            </h1>
             <p className="text-primary text-xs md:text-sm font-semibold">
               Delivery
             </p>
           </div>
         </div>
         <div className="flex items-center border-b-2 h-8 border-primary">
-          <IoIosSearch className="text-xl md:text-2xl text-primary font-bold" />
+          <IoIosSearch className="text-lg md:text-xl text-primary font-bold" />
           <input
-            className="w-28 md:w-36 h-full pl-1 outline-none text-primary placeholder:text-primary text-xs md:text-base"
+            className="w-28 md:w-36 h-full pl-1 outline-none text-primary placeholder:text-primary text-xs md:text-sm"
             type="text"
             placeholder="Search for food..."
             onChange={(e) => handleSearch(e.target.value)}
@@ -87,7 +89,9 @@ const Navbar = () => {
                   className="w-10 h-10 object-cover rounded-full"
                 />
                 <div className="flex flex-col">
-                  <span className="text-tertiary font-bold text-sm md:text-base ">{item.name}</span>
+                  <span className="text-tertiary font-bold text-sm md:text-base ">
+                    {item.name}
+                  </span>
                   <span className="text-xs font-semibold italic">
                     {item.restaurant.name}
                   </span>
@@ -102,20 +106,20 @@ const Navbar = () => {
             className="text-2xl md:text-4xl text-primary cursor-pointer"
           />
           <div className="relative">
-          <FaCircleUser
-            className="text-2xl md:text-4xl text-primary cursor-pointer"
-            onClick={() => setIsProfileClick((prev) => !prev)}
-          />
-          {isProfileClick && (
-            <div className="absolute top-6 md:top-10 right-2 bg-white rounded-sm shadow-lg p-2 md:py-2 md:px-4 z-50 ">
-              <button
-                onClick={handleLogout}
-                className="text-tertiary font-semibold cursor-pointer text-sm"
-              >
-                Logout
-              </button>
-            </div>
-          )}
+            <FaCircleUser
+              className="text-2xl md:text-4xl text-primary cursor-pointer"
+              onClick={() => setIsProfileClick((prev) => !prev)}
+            />
+            {isProfileClick && (
+              <div className="absolute top-6 md:top-10 right-2 bg-white rounded-sm shadow-lg p-2 md:py-2 md:px-4 z-50 ">
+                <button
+                  onClick={handleLogout}
+                  className="text-tertiary font-semibold cursor-pointer text-sm"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

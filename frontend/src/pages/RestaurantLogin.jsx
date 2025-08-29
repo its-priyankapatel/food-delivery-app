@@ -27,18 +27,18 @@ const RestaurantLogin = () => {
       }
     );
     if (data.success) {
-      toast.success(data.message);
+      toast.success("Restaurant Logged In Successfully");
       localStorage.setItem("restaurantToken", data.token);
       setEmail("");
       setPassword("");
       navigate("/restaurant-dashboard");
     } else {
-      toast.error("Error in User Login");
+      toast.error("Something went wrong, Please login again");
     }
   };
   return (
     <>
-       <div className="relative w-full h-screen md:h-auto flex justify-center font-poppins">
+      <div className="relative w-full h-screen md:h-auto flex justify-center font-poppins">
         <div className="fixed h-screen w-full -z-10">
           <BG />
         </div>
@@ -47,7 +47,9 @@ const RestaurantLogin = () => {
             <div className="h-18 w-18 rounded-full bg-yellow-400 flex justify-center items-center">
               <PiChefHatBold className="text-5xl" />
             </div>
-            <h3 className="text-3xl font-extrabold text-black">Welcome Back Chef!</h3>
+            <h3 className="text-3xl font-extrabold text-black">
+              Welcome Back Chef!
+            </h3>
             <p className="text-sm text-gray-600">
               Sign in to your account to continue serving
             </p>
@@ -70,11 +72,11 @@ const RestaurantLogin = () => {
                 <div className="flex items-center h-10 border border-[rgba(0,0,0,0.1)] rounded-lg p-2 gap-2 focus-within:shadow-[0px_0px_5px_2px_rgba(0,0,0,0.1)]">
                   <AiOutlineMail className="text-base text-gray-700" />
                   <input
-                  required
+                    required
                     type="email"
                     placeholder="Enter your email"
                     className="outline-none text-sm w-full"
-                    onChange={(e)=>setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -85,12 +87,11 @@ const RestaurantLogin = () => {
                 <div className="flex items-center h-10 border border-[rgba(0,0,0,0.1)] rounded-lg p-2 gap-2 focus-within:shadow-[0px_0px_5px_2px_rgba(0,0,0,0.1)]">
                   <MdLockOutline className="text-base text-gray-700" />
                   <input
-                  required
+                    required
                     type="password"
                     placeholder="Enter your Password"
                     className="outline-none text-sm w-full"
-                    onChange={(e)=>setPassword(e.target.value)}
-
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
@@ -115,10 +116,18 @@ const RestaurantLogin = () => {
               Login as User
             </button>
           </div>
-          <p className="mt-3 text-sm text-gray-700">New Restaurant? <span
-          onClick={()=>navigate('/register/restaurant')}
-           className="cursor-pointer text-orange-400 font-extrabold">Sign Up</span></p>
-          <p className="text-[11px] text-gray-700 font-medium mt-3">By signing in, you agree to our Terms of Service and Privacy Policy</p>
+          <p className="mt-3 text-sm text-gray-700">
+            New Restaurant?{" "}
+            <span
+              onClick={() => navigate("/register/restaurant")}
+              className="cursor-pointer text-orange-400 font-extrabold"
+            >
+              Sign Up
+            </span>
+          </p>
+          <p className="text-[11px] text-gray-700 font-medium mt-3">
+            By signing in, you agree to our Terms of Service and Privacy Policy
+          </p>
         </div>
       </div>
     </>

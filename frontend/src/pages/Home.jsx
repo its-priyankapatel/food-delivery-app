@@ -18,8 +18,12 @@ const Home = () => {
     <>
       <div className="w-full h-screen overflow-x-clip">
         <Navbar />
-        <div className="h-[85%] md:h-screen flex bg-secondary mt-20 w-full">
-          <img className="h-full md:block -translate-x-10 md:translate-x-0" src={vegPhoto} alt="" />
+        <div className="h-[85%] md:h-screen flex bg-secondary mt-14 md:mt-16 w-full">
+          <img
+            className="h-full md:block -translate-x-10 md:translate-x-0"
+            src={vegPhoto}
+            alt=""
+          />
           <div className="flex flex-col h-[40%] w-full justify-around items-center -translate-x-10 md:translate-x-0">
             <h1 className="text-2xl md:text-4xl font-semibold text-white text-center text-shadow-lg w-full shadow-black selection:text-tertiary selection:bg-primary">
               Taste that makes you go{" "}

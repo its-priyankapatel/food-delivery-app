@@ -55,8 +55,8 @@ const AllFood = () => {
   };
 
   return (
-    <div className="h-[350px] px-4 md:px-20 bg-primary py-1">
-      <h1 className="my-10 text-center text-2xl  md:text-4xl font-semibold text-tertiary selection:text-primary selection:bg-tertiary">
+    <div className="h-[250px] md:h-[350px] px-4 md:px-20 bg-primary py-1">
+      <h1 className="my-5 md:my-10 text-center text-2xl  md:text-4xl font-semibold text-tertiary selection:text-primary selection:bg-tertiary">
         Inspiration for your first order
       </h1>
 

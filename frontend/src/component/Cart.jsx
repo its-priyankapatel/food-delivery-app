@@ -33,7 +33,7 @@ const Cart = () => {
 
   useEffect(() => {
     fetchCartItem();
-  }, []); // ✅ prevent infinite loop by adding dependency array
+  }); // ✅ prevent infinite loop by adding dependency array
 
   // ✅ Stripe checkout
   const makePayment = async () => {
@@ -206,7 +206,7 @@ const Cart = () => {
               >
                 Pay ₹{cart.total + 40 + 4}
               </button>
-            </div>  
+            </div>
           </div>
         </div>
       )}

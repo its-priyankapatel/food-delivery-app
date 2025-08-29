@@ -70,14 +70,15 @@ const DisplayFoodRestaurant = () => {
     const restaurantWithImage = { ...restaurant, image: foodImage };
     localStorage.setItem("food", JSON.stringify(restaurantWithImage));
     navigate(`/restaurant/${restaurant._id}`);
+    window.scrollTo(0, 0);
   };
 
   return (
-    <div className="h-auto w-full font-poppins">
-      <h1 className="text-2xl md:text-4xl text-center font-semibold text-primary text-shadow-2xs text-shadow-black py-4 md:py-10 bg-secondary selection:text-tertiary selection:bg-primary h-14 md:h-28">
+    <div className="h-auto w-full font-poppins bg-primary py-5">
+      <h1 className="text-lg md:text-4xl text-center font-semibold text-primary text-shadow-2xs text-shadow-black py-4 md:py-8 bg-secondary selection:text-tertiary selection:bg-primary h-14 md:h-28">
         Delicious Picks Just for You
       </h1>
-      <div className="w-full h-auto bg-primary p-4 md:p-24 ">
+      <div className="w-full h-auto pt-4 md:pt-12 flex justify-center">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {allRestaurant.map((restaurant, index) => {
             const foodId = restaurant.food?.[0];
@@ -87,7 +88,7 @@ const DisplayFoodRestaurant = () => {
               <div
                 key={index}
                 onClick={() => switchRestaurant(restaurant, food.image)}
-                className="h-auto md:h-80 w-42 md:w-85 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300 cursor-pointer flex flex-col gap-1 md:gap-4"
+                className="h-78 md:h-92 w-42 md:w-85 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300 cursor-pointer flex flex-col gap-1 md:gap-4"
               >
                 <div className="h-[60%] w-full">
                   <img
@@ -96,22 +97,22 @@ const DisplayFoodRestaurant = () => {
                     className="h-full w-full object-cover rounded-t-xl"
                   />
                 </div>
-                <div className="flex justify-between items-center w-full px-2 md:px-4">
-                  <p className="font-semibold text-xs md:font-bold md:text-base">
+                <div className="flex h-auto justify-center items-start w-full px-2 md:px-4">
+                  <div className="font-semibold text-sm md:font-bold md:text-base h-auto w-[70%]">
                     {restaurant.name}
-                  </p>
-                  <div className="flex p-1 gap-1 justify-center items-center rounded-sm bg-secondary text-white font-semibold text-[11px] md:text-sm">
-                    <p>{restaurant.rating}</p>
-                    <IoStar />
                   </div>
-                </div>
-                <div className="flex items-center justify-between px-2 md:px-4 w-full">
-                  <p className="text-[10px] md:text-xs text-gray-700">
-                    {restaurant.description}
-                  </p>
-                  <p className="text-xs font-semibold">
+                  <div className="text-sm md:text-base font-semibold w-[30%] flex justify-end ">
                     {currencySymbol}
                     {food?.price}
+                  </div>
+                  {/* <div className="flex p-1 gap-1 justify-center items-center rounded-sm bg-secondary text-white font-semibold text-[11px] md:text-sm">
+                    <p>{restaurant.rating}</p>
+                    <IoStar />
+                  </div> */}
+                </div>
+                <div className="flex items-center justify-between px-2 md:px-4 w-full">
+                  <p className="text-[10px] text-xs md:text-sm text-gray-700">
+                    {restaurant.description}
                   </p>
                 </div>
               </div>
