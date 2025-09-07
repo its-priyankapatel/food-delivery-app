@@ -104,7 +104,6 @@ export const restaurantLogin = async (req, res) => {
         message: "All fields are required",
       });
     }
-    console.log(password);
     const restaurant = await Restaurant.findOne({ email });
     if (!restaurant || restaurant.length === 0) {
       return res.status(404).send({
