@@ -9,6 +9,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { IoMdTrash } from "react-icons/io";
 import { loadStripe } from "@stripe/stripe-js";
 import "./Cart.css";
+import BackButton from "./BackButton.jsx";
 
 const Cart = () => {
   const { backendUrl, handleAddCart } = useContext(AppContext);
@@ -116,7 +117,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="h-screen w-full flex items-center justify-center bg-primary">
+    <div className="h-screen w-full flex items-center justify-center">
       {cartItem.length <= 0 ? (
         <div className="h-50 w-60 flex flex-col items-center justify-center gap-4 shadow-md">
           <img
@@ -135,6 +136,7 @@ const Cart = () => {
             id="scrollbar"
             className="w-full md:w-[70%] h-full overflow-y-scroll flex flex-col gap-2 md:gap-4 p-4"
           >
+            <BackButton />
             {cartItem.map((item, index) => (
               <div
                 key={index}
@@ -180,7 +182,7 @@ const Cart = () => {
           </div>
 
           {/* Bill Details */}
-          <div className="w-full md:w-[30%] h-[40%] md:h-full border-l-4 border-primary p-4 text-tertiary bg-orange-600/5">
+          <div className="w-full md:w-[30%] h-[40%] md:h-full border-l-0 md:border-l-4 border-primary p-4 text-tertiary bg-orange-600/5">
             <h1 className="font-bold text-xl md:text-2xl">Bill Details</h1>
             <div className="flex flex-col gap-3 mt-2 md:mt-4">
               <div className="flex justify-between">

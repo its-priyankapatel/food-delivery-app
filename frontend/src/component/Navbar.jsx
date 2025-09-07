@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import food_logo from "../assets/food_logo.png";
 import { IoIosSearch } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaCircleUser } from "react-icons/fa6";
 import { BsCart4 } from "react-icons/bs";
 import axios from "axios";
 import { useContext } from "react";
 import { AppContext } from "./../context/AppContext";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 
 const Navbar = () => {
   const { backendUrl, setFood } = useContext(AppContext);
   const [isProfileClick, setIsProfileClick] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const token = localStorage.getItem("userToken") || "";
   const [foodName, setFoodName] = useState("");
   const [search, setSearch] = useState([]);
@@ -51,6 +53,14 @@ const Navbar = () => {
     <>
       <div className="h-14 md:h-16 flex items-center justify-between px-1 md:px-2 fixed w-full z-20 top-0 left-0 font-poppins bg-secondary">
         <div className="flex gap-1">
+          {location.pathname != "/" && (
+            <button
+              onClick={() => navigate(-1)}
+              className="cursor-pointer text-white"
+            >
+              <MdOutlineKeyboardBackspace className="size-4 md:size-6 font-extrabold" />
+            </button>
+          )}
           <img
             onClick={() => navigate("/")}
             className="h-10 md:h-14 cursor-pointer"
