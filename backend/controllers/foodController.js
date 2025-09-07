@@ -155,8 +155,6 @@ export const getFoodByCategoryController = async (req, res) => {
         message: "Food is not Found",
       });
     }
-    console.log(foods);
-
     const uniqueRestaurants = [];
     const seen = new Set();
 

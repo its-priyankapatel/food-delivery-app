@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../context/AppContext.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -42,26 +42,30 @@ const Login = () => {
         <div className="fixed h-screen w-full -z-10">
           <BG />
         </div>
-        <div className="flex flex-col w-full md:w-1/2 items-center py-4 px-4 md:px-8 h-full md:h-auto bg-white ">
+        <div className="flex flex-col w-full md:w-1/2 items-center py-4 px-4 md:px-8 min-h-screen h-full md:h-auto bg-white">
           <div className="w-full flex flex-col justify-center items-center gap-1">
             <div className="h-18 w-18 rounded-full bg-yellow-400 flex justify-center items-center">
               <PiForkKnifeFill className="text-5xl" />
             </div>
-            <h3 className="text-3xl font-extrabold text-black">Welcome Back</h3>
+            <h3 className="text-xl md:text-3xl font-extrabold text-black">
+              Welcome Back
+            </h3>
             <p className="text-sm text-gray-600">
               Sign in to your account to continue ordering
             </p>
           </div>
-          <div className="w-full md:w-[70%] flex flex-col gap-4 md:gap-2 justify-center items-center p-6 rounded-lg border border-[rgba(0,0,0,0.3)] mt-8 md:mt-5">
+          <div className="w-full md:w-[70%] flex flex-col gap-4 md:gap-2 justify-center items-center p-2 md:p-6 rounded-lg border border-[rgba(0,0,0,0.3)] mt-3 md:mt-5">
             <div className="w-full text-center">
-              <h1 className="text-2xl font-extrabold text-black">Login</h1>
+              <h1 className="text-xl md:text-2xl font-extrabold text-black">
+                Login
+              </h1>
               <p className="text-sm text-gray-600 mt-2">
                 Enter your credentials to access your account
               </p>
             </div>
             <form
               onSubmit={handleSubmit}
-              className="flex flex-col justify-center w-full gap-4 mt-2"
+              className="flex flex-col justify-center w-full gap-4 mt-0 md:mt-2"
             >
               <div className="w-full">
                 <label className="text-sm font-semibold text-gray-700">

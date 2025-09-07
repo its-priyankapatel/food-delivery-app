@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const PaymentFailure = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="h-screen w-full flex justify-center items-center bg-primary">
@@ -12,6 +14,12 @@ const PaymentFailure = () => {
           />
           <p className="text-2xl font-semibold">Payment Failed!</p>
           <p className="text-sm">Please try Again</p>
+          <button
+            onClick={() => navigate("/")}
+            className="bg-red-500 p-2 text-sm rounded-sm text-white cursor-pointer"
+          >
+            Back to home page
+          </button>
         </div>
       </div>
     </>

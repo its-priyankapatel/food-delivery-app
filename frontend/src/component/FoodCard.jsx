@@ -41,7 +41,7 @@ const FoodCard = ({ food }) => {
     }
   };
   return (
-    <div className="md:h-96 md:max-w-96 min-w-1/2 md:min-w-96 bg-[#f5f5f5] rounded-xl md:rounded-2xl border border-[rgba(0,0,0,0.1)] font-poppins">
+    <div className="h-90 md:h-96 md:max-w-96 min-w-1/2 md:min-w-96 bg-[#f5f5f5] rounded-xl md:rounded-2xl border border-[rgba(0,0,0,0.1)] font-poppins">
       {foodLoading && (
         <div className="fixed h-screen w-full bg-black/70 top-0 left-0 z-10 flex justify-center items-center">
           <Spinner />

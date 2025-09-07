@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { AppContext } from "./../context/AppContext";
+import { AppContext } from "./../context/AppContext.jsx";
 import { useNavigate } from "react-router-dom";
 
 const PublicRoutes = ({ children }) => {

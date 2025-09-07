@@ -44,9 +44,9 @@ const Register = () => {
   };
   return (
     <>
-      <div className="w-full h-screen flex flex-col md:flex-row bg-gray-200">
+      <div className="w-full min-h-screen h-screen flex flex-col md:flex-row bg-gray-200">
         {/* First Section */}
-        <div className="w-full md:w-0 h-50 md:h-0 flex justify-end">
+        <div className="w-full md:w-0 h-screen md:h-0 flex justify-end">
           <div className="block md:hidden h-50 w-50 bg-orange-400 rounded-bl-full relative">
             <img
               className="w-[70%] md:w-1/2 h-[60%] md:h-full object-cover absolute top-8 left-13"
@@ -62,7 +62,7 @@ const Register = () => {
         />
 
         {/* Second Section */}
-        <div className="flex flex-col gap-4 w-[90%]  h-[70%] md:h-full mx-5 md:mx-0 md:w-1/2 justify-center items-center p-3 md:p-8 bg-primary rounded-lg">
+        <div className="flex flex-col gap-4 w-[90%] h-[70%] md:h-full mx-5 md:mx-0 md:w-1/2 justify-center items-center p-3 md:p-8 bg-primary rounded-lg">
           <h3 className="text-lg md:text-xl font-semibold text-orange-400 text-center selection:text-primary selection:bg-orange-400 font-poppins">
             Create account
           </h3>

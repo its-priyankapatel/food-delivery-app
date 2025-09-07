@@ -87,7 +87,7 @@ const RestaurantHome = () => {
           <div
             className="cursor-pointer relative"
             onClick={(e) => {
-              e.stopPropagation( );
+              e.stopPropagation();
               setDotClicked(!dotClicked);
             }}
           >
@@ -139,7 +139,7 @@ const RestaurantHome = () => {
         </div>
 
         {/* Filter 1 (Stock) */}
-        <div className="w-1/4 h-10 hidden md:flex gap-3 items-center justify-center ">
+        <div className="w-1/4 h-10 hidden md:flex gap-3 items-center justify-center">
           {["all", "in_stock", "out_of_stock"].map((f) => (
             <p
               key={f}
@@ -197,7 +197,7 @@ const RestaurantHome = () => {
         </div>
       </div>
       {/* Food Cards */}
-      <div className="w-full px-4 md:px-20 py-6 grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-6">
+      <div className="w-full px-4 md:px-20 py-6 grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-6 bg-amber-300">
         {restaurant?.food.map((food, index) => (
           <FoodCard key={index} food={food} />
         ))}

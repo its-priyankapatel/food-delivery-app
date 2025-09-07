@@ -16,9 +16,9 @@ const Home = () => {
   };
   return (
     <>
-      <div className="w-full h-screen overflow-x-clip">
+      <div className="w-full h-screen overflow-x-clip bg-secondary overflow-y-scroll">
         <Navbar />
-        <div className="h-[85%] md:h-screen flex bg-secondary mt-14 md:mt-16 w-full">
+        <div className="h-[90%] md:h-screen flex bg-secondary mt-14 md:mt-16 w-full">
           <img
             className="h-full md:block -translate-x-10 md:translate-x-0"
             src={vegPhoto}
@@ -33,7 +33,7 @@ const Home = () => {
               <button
                 onClick={handleExplore}
                 type="button"
-                className="w-28 h-10 hover:bg-primary hover:text-black rounded-md cursor-pointer font-semibold  border-2  border-primary text-primary bg-transparent"
+                className="w-24 md:w-28 h-8 md:h-10 hover:bg-primary hover:text-black rounded-md cursor-pointer font-semibold  border-2  border-primary text-primary bg-transparent"
               >
                 Explore
               </button>
