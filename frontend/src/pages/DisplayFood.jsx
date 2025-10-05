@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import Navbar from "../component/Navbar";
-import { IoStar } from "react-icons/io5";
 import { MdOutlineCurrencyRupee } from "react-icons/md";
 
 const DisplayFood = () => {
@@ -25,6 +24,7 @@ const DisplayFood = () => {
     );
     if (data.success) {
       setFoods(data.food);
+      console.log(data.food);
     }
   };
   useEffect(() => {
@@ -58,7 +58,7 @@ const DisplayFood = () => {
               >
                 <div className="flex flex-col items-center gap-1 h-66 md:h-80 w-40 md:w-76 m-auto mt-2">
                   <div
-                    className="h-35 md:h-[60%] w-40 md:w-[96%] rounded-xl bg-cover bg-no-repeat bg-center"
+                    className="h-35 md:h-[60%] w-[70%] md:w-[96%] rounded-xl bg-cover bg-no-repeat bg-center"
                     style={{ backgroundImage: `url(${val.foodImage})` }}
                   ></div>
                   <div className="h-28 md:h-24 w-40 md:w-72 ml-2">
@@ -66,8 +66,8 @@ const DisplayFood = () => {
                       <p className="text-base md:text-lg font-semibold">
                         {val.restaurantName}
                       </p>
-                      <p className="flex gap-1 bg-secondary rounded-sm px-1 h-6 md:h-7 w-11 md:w-14 text-sm md:text-base items-center justify-center text-white">
-                        {val.rating} <IoStar className="text-sm md:text-base" />
+                      <p className="flex gap-1 rounded-sm px-1 h-6 md:h-7 w-11 md:w-14 text-sm md:text-base font-semibold items-center justify-center text-gray-800">
+                        ₹ {val.foodPrice}{" "}
                       </p>
                     </div>
                     <div className="w-38 md:w-70 h-full  text-gray-600 text-xs md:text-sm font-semibold pl-1 mt-1">

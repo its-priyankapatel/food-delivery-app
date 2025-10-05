@@ -3,22 +3,13 @@ import bcrypt from "bcrypt";
 
 export const addRestaurantController = async (req, res) => {
   try {
-    const {
-      name,
-      mobile,
-      description,
-      address,
-      rating,
-      time,
-      email,
-      password,
-    } = req.body;
+    const { name, mobile, description, address, time, email, password } =
+      req.body;
     if (
       !name ||
       !mobile ||
       !description ||
       !address ||
-      !rating ||
       !time ||
       !email ||
       !password
@@ -48,7 +39,6 @@ export const addRestaurantController = async (req, res) => {
       mobile,
       description,
       address,
-      rating,
       time,
       email,
       password: hashedPassword,

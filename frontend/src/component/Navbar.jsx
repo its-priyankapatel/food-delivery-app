@@ -44,9 +44,9 @@ const Navbar = () => {
     }
   };
 
-  const handleRestaurant = async (restaurantId, food) => {
+  const handleRestaurant = async (food) => {
     localStorage.setItem("selectedFood", JSON.stringify(food));
-    navigate(`/restaurant/${restaurantId}`);
+    navigate(`/all-food/${food.category}`);
   };
 
   return (

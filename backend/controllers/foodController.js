@@ -168,7 +168,7 @@ export const getFoodByCategoryController = async (req, res) => {
           foodName: food.name,
           foodImage: food.image,
           description: food.restaurant.description,
-          rating: food.restaurant.rating,
+          foodPrice: food.price,
         });
       }
     }

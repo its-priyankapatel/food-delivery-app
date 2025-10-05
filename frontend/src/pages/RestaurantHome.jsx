@@ -197,7 +197,7 @@ const RestaurantHome = () => {
         </div>
       </div>
       {/* Food Cards */}
-      <div className="w-full px-4 md:px-20 py-6 grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-6 bg-amber-300">
+      <div className="w-full px-4 md:px-20 py-6 grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-6">
         {restaurant?.food.map((food, index) => (
           <FoodCard key={index} food={food} />
         ))}
