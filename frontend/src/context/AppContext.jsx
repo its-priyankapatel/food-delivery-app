@@ -59,6 +59,7 @@ export const AppContextProvider = ({ children }) => {
   // ------------------ Restaurant Functions ------------------
   const fetchRestaurant = async () => {
     const token = localStorage.getItem("restaurantToken");
+
     if (!token) {
       setRestaurant(null);
       setRestaurantLoading(false);
@@ -72,8 +73,10 @@ export const AppContextProvider = ({ children }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      if (data.success) setRestaurant(data.restaurant);
-      else setRestaurant(null);
+      if (data.success) {
+        console.log(data.restaurant);
+        setRestaurant(data.restaurant);
+      } else setRestaurant(null);
     } catch (error) {
       console.error("Failed to fetch restaurant:", error);
       setRestaurant(null);

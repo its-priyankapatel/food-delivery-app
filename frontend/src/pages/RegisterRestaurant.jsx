@@ -25,7 +25,6 @@ const RegisterRestaurant = () => {
       !password ||
       !mobile ||
       !location ||
-      !rating ||
       !time ||
       !description
     ) {
@@ -41,7 +40,6 @@ const RegisterRestaurant = () => {
           mobile,
           address: location,
           time,
-          rating,
           description,
         }
       );
@@ -53,7 +51,6 @@ const RegisterRestaurant = () => {
         setMobile("");
         setLocation("");
         setTime("");
-        SetRating("");
         setDesription("");
         navigate("/login");
       } else {
@@ -117,13 +114,6 @@ const RegisterRestaurant = () => {
                 value={mobile}
                 placeholder="Mobile"
               />
-              {/* <input
-                onChange={(e) => SetRating(e.target.value)}
-                className="h-10 pl-2 w-[18%] border-2 outline-none rounded-md text-white placeholder:text-white focus:border-primary"
-                type="number"
-                value={rating}
-                placeholder="Rating"
-              /> */}
               <input
                 onChange={(e) => setTime(e.target.value)}
                 className="h-10 pl-1 md:pl-2 w-[45%] text-sm md:text-base md:w-[40%] border-2 outline-none rounded-md text-white placeholder:text-white focus:border-primarys"

@@ -38,6 +38,7 @@ const Register = () => {
       setEmail("");
       setPassword("");
       setLocation("");
+      navigate("/login");
     } else {
       toast.error("Something went wrong, Please Register again");
     }

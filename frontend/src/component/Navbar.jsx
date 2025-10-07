@@ -35,6 +35,7 @@ const Navbar = () => {
           }
         );
         setSearch(data.food);
+        console.log(data.food);
       } catch (err) {
         console.error("Search failed:", err);
         setSearch([]);
@@ -45,6 +46,9 @@ const Navbar = () => {
   };
 
   const handleRestaurant = async (food) => {
+    console.log(food);
+    console.log(food.category);
+
     localStorage.setItem("selectedFood", JSON.stringify(food));
     navigate(`/all-food/${food.category}`);
   };
@@ -90,7 +94,7 @@ const Navbar = () => {
             {search.map((item, index) => (
               <div
                 key={item._id || index}
-                onClick={() => handleRestaurant(item.restaurant._id, item)}
+                onClick={() => handleRestaurant(item)}
                 className="flex items-center gap-4 cursor-pointer hover:bg-gray-200 p-2 rounded-lg "
               >
                 <img

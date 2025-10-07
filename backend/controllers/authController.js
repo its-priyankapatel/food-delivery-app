@@ -14,7 +14,6 @@ export const SignUp = async (req, res) => {
       });
     }
     if (!validator.isEmail(email)) {
-      console.log("Invalid Email");
       return res.status(400).send({
         success: false,
         message: "Please Provide a valid Email address",

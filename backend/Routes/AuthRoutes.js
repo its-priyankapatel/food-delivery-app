@@ -8,9 +8,9 @@ import {
   SignUp,
 } from "../controllers/authController.js";
 import { authMiddleware } from "../Middlewares/authMiddleware.js";
-import { get } from "mongoose";
 
 const router = express.Router();
+
 router.post("/sign-up", SignUp);
 router.post("/login", Login);
 router.post("/restaurant-login", restaurantLogin);

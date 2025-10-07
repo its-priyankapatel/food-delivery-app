@@ -12,6 +12,8 @@ import Spinner from "../component/Spinner";
 const RestaurantHome = () => {
   const navigate = useNavigate();
   const { restaurant } = useContext(AppContext);
+  console.log(restaurant);
+
   // Filter states
   const [filter1, setFilter1] = useState("all"); // all | in_stock | out_of_stock
   const [filter2, setFilter2] = useState("all"); // all | veg | non_veg

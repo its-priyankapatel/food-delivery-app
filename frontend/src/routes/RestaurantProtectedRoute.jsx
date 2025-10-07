@@ -10,7 +10,6 @@ const RestaurantProtectedRoute = ({ children }) => {
   const [authorized, setAuthorized] = useState(false);
 
   const fetchRestaurant = async (token) => {
-    console.log("i have been called");
     try {
       const { data } = await axios.get(
         backendUrl + "/api/auth/retrive-restaurant",

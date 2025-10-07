@@ -92,10 +92,6 @@ const DisplayRestaurant = () => {
               <MdOutlineAccessTime className="text-lg" />
               {restaurantData.time}
             </p>
-            <p className="w-12 md:w-14 h-8 flex gap-1 items-center justify-center rounded-sm mt-4 text-white border-2 border-gray-400">
-              {restaurantData.rating}
-              <IoStar />
-            </p>
           </div>
         </div>
         <div className="h-auto w-full bg-primary">
