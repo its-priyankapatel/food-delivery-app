@@ -45,7 +45,7 @@ export const paymentController = async (req, res) => {
       quantity: 1,
     },
   ];
-  console.log(lineItems);
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["amazon_pay", "card"],
     line_items: lineItems,
