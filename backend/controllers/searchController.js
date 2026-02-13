@@ -1,29 +1,61 @@
-import { Food } from "../model/food.js";
+import client from "../config/algolia.js";
 
-export const searchFoodController = async (req, res) => {
+export const typeaheadController = async (req, res) => {
   try {
-    const { foodname } = req.query;
-    if (!foodname || foodname.trim().length < 3) {
-      return res.status(400).send({
+    const { q } = req.query;
+
+    if (!q || q.trim().length < 3) {
+      return res.status(400).json({
         success: false,
-        message: "Please Enter atleast 3 characters to search",
+        message: '"q" must be at least 3 characters'
       });
     }
-    const regex = new RegExp(foodname, "i");
-    const foods = await Food.find({ name: { $regex: regex } }).populate(
-      "restaurant"
-    );
 
-    return res.status(200).send({
-      success: true,
-      message: "food searched successfully",
-      food: foods,
+    const response = await client.search({
+      requests: [
+        {
+          indexName: process.env.PRODUCT_INDEX,
+          query: q,
+          hitsPerPage: 5,
+          attributesToRetrieve: [
+            "name",
+            "description",
+            "category",
+            "image",
+            "rating",
+            "objectID",
+            "inStock",
+            "type"
+          ]
+        }
+      ]
     });
+
+    const { hits, nbHits } = response.results[0];
+
+    const products = hits.map(product => ({
+      objectID: product.objectID,
+      type: product.type,
+      name: product.name,
+      description: product.description,
+      category: product.category,
+      image: product.image,
+      rating: product.rating,
+      inStock: product.inStock
+    }));
+    return res.status(200).json({
+      success: true,
+      message: "Search successful",
+      products,
+      count: nbHits
+    });
+
   } catch (error) {
-    console.log(error);
-    return res.status(500).send({
+    console.error("Typeahead error:", error);
+
+    return res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: "Internal Server Error"
     });
   }
 };

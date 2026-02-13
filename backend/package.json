@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "algoliasearch": "^5.48.1",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.7.0",
     "colors": "^1.4.0",
