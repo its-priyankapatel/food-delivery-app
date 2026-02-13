@@ -4,12 +4,15 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import Navbar from "../component/Navbar";
 import { MdOutlineCurrencyRupee } from "react-icons/md";
+import CategoryBG from "../component/BG/CategoryBG";
+import Categories from "../component/home/Categories";
+import { FaChevronRight } from "react-icons/fa6";
+import CategoryCard from "../component/cards/CategoryCard";
 
 const DisplayFood = () => {
-  const targetRef = useRef(null);
   const { category } = useParams();
   const navigate = useNavigate();
-
+  const restaurants = new Array(10).fill(undefined);
   const { backendUrl, setFoodData } = useContext(AppContext);
 
   const [foods, setFoods] = useState([]);
@@ -24,7 +27,6 @@ const DisplayFood = () => {
     );
     if (data.success) {
       setFoods(data.food);
-      console.log(data.food);
     }
   };
   useEffect(() => {
@@ -43,41 +45,20 @@ const DisplayFood = () => {
   };
   return (
     <>
-      <div className="bg-red-600 h-screen w-full">
+      <div className="px-2 md:px-10 h-screen w-full relative">
         <Navbar />
-        <div className="min-h-screen h-auto pb-2 md:pb-10 w-full md:w-80% mt-16 bg-primary">
-          <h1 className="text-center py-4 md:py-6 text-2xl md:text-4xl font-semibold text-tertiary text-shadow-2xs selection:text-primary selection:bg-tertiary">
-            {category} Delivery
-          </h1>
-          <div className="grid grid-cols-2 md:grid-cols-4 mx-1 md:mx-10 gap-1">
-            {foods.map((val, index) => (
-              <div
-                onClick={() => handleFood(val)}
-                key={index}
-                className="h-[99%] md:h-full w-[98%] md:w-[90%]  rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300 mx-1 md:mx-3"
-              >
-                <div className="flex flex-col items-center gap-1 h-66 md:h-80 w-40 md:w-76 m-auto mt-2">
-                  <div
-                    className="h-35 md:h-[60%] w-[70%] md:w-[96%] rounded-xl bg-cover bg-no-repeat bg-center"
-                    style={{ backgroundImage: `url(${val.foodImage})` }}
-                  ></div>
-                  <div className="h-28 md:h-24 w-40 md:w-72 ml-2">
-                    <div className="flex justify-between mx-1">
-                      <p className="text-base md:text-lg font-semibold">
-                        {val.restaurantName}
-                      </p>
-                      <p className="flex gap-1 rounded-sm px-1 h-6 md:h-7 w-11 md:w-14 text-sm md:text-base font-semibold items-center justify-center text-gray-800">
-                        ₹ {val.foodPrice}{" "}
-                      </p>
-                    </div>
-                    <div className="w-38 md:w-70 h-full  text-gray-600 text-xs md:text-sm font-semibold pl-1 mt-1">
-                      {val.description}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        <CategoryBG />
+        <h1 className='mt-10 text-xl font-bold font-poppins flex items-center'>Top Restaurants in {category}
+          <FaChevronRight className='text-base pl-2' />
+        </h1>
+        <div className="scrollbar-hide scroll-smooth w-full h-56 border-2 border-sky-700/70 rounded-3xl mt-2 overflow-x-auto flex gap-4 items-center px-4">
+          {restaurants.map((restaurant, idx) => (
+            <CategoryCard />
+          ))}
+        </div>
+        <Categories titleText="Explore more categories" active={true} activeName={category} />
+        <div className="h-auto w-full px-2 md:px-10">
+
         </div>
       </div>
     </>

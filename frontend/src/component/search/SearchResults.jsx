@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from 'framer-motion';
 
 const SearchResults = ({ results }) => {
     if (!results || results.length === 0) return null;

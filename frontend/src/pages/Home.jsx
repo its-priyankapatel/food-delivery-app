@@ -3,12 +3,13 @@ import Navbar from "../component/Navbar";
 import PromoAndProducts from "../component/home/PromoAndProducts";
 import { HashLink } from "react-router-hash-link";
 import MobileBG from "../component/BG/MobileBG";
+import Categories from "../component/home/Categories";
 
 const Home = () => {
   const pasta = "https://res.cloudinary.com/driqu2cgm/image/upload/w_1000/q_auto/f_auto/v1770914412/pngwing.com_4_ahv60r.png";
   return (
     <>
-      <div className="h-auto w-full scroll-smooth transition duration-500">
+      <div className="pb-20 md:px-10 h-auto w-full scroll-smooth transition duration-500">
         <div className="w-full h-screen relative overflow-x-clip bg-background">
           <MobileBG />
           <Navbar />
@@ -35,6 +36,7 @@ const Home = () => {
           </div>
         </div>
         <PromoAndProducts />
+        <Categories titleText={"Explore Categories"} />
       </div>
     </>
   );

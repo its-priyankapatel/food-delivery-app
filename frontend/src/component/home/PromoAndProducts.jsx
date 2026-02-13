@@ -23,7 +23,6 @@ const PromoAndProducts = () => {
         });
     };
 
-    // Auto Slide
     useEffect(() => {
         const interval = setInterval(() => {
             paginate(1);
@@ -48,8 +47,9 @@ const PromoAndProducts = () => {
     };
 
     return (
-        <div className='mt-5 md:mt-16 h-screen w-full flex flex-col items-center pt-14' id='PROMO'>
-            <div className='relative w-[95%] md:w-[70%] h-40 md:h-56 overflow-hidden rounded-3xl bg-primary'>
+        <div className='mt-5 md:mt-16 w-full flex flex-col items-center pt-14' id='PROMO'>
+
+            <div className='relative w-[95%] md:w-[70%] aspect-3/1 overflow-hidden rounded-3xl bg-primary'>
 
                 <AnimatePresence initial={false} custom={direction}>
                     <motion.img
@@ -63,11 +63,9 @@ const PromoAndProducts = () => {
                         transition={{ duration: 0.6, ease: "easeInOut" }}
                         drag="x"
                         dragConstraints={{ left: 0, right: 0 }}
-                        onDragEnd={(e, { offset, velocity }) => {
-                            const swipe = offset.x;
-
-                            if (swipe < -100) paginate(1);
-                            else if (swipe > 100) paginate(-1);
+                        onDragEnd={(e, { offset }) => {
+                            if (offset.x < -100) paginate(1);
+                            else if (offset.x > 100) paginate(-1);
                         }}
                         className='absolute w-full h-full object-cover'
                     />
@@ -79,7 +77,7 @@ const PromoAndProducts = () => {
                         <div
                             key={idx}
                             className={`rounded-full transition-all duration-300 
-                            ${idx === current
+            ${idx === current
                                     ? "size-2 md:size-3 bg-white"
                                     : "size-1 md:size-2 bg-white/60"
                                 }`}

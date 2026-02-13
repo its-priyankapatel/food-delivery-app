@@ -6,10 +6,9 @@ const MobileBG = () => {
     const thali = "https://res.cloudinary.com/driqu2cgm/image/upload/w_1000/q_auto/f_auto/v1771006564/pngwing.com_7_uxipud.png";
     const gulabjamun = "https://res.cloudinary.com/driqu2cgm/image/upload/w_1000/q_auto/f_auto/v1771006554/pngwing.com_9_bzrj5v.png";
     const dhaniya = "https://res.cloudinary.com/driqu2cgm/image/upload/w_1000/q_auto/f_auto/v1771006554/pngwing.com_8_o9zvic.png";
-    const momos = "https://res.cloudinary.com/driqu2cgm/image/upload/w_1000/q_auto/f_auto/v1771006554/pngwing.com_10_q2fcuq.png";
     const pizza = "https://res.cloudinary.com/driqu2cgm/image/upload/w_1000/q_auto/f_auto/v1770914429/pngwing.com_1_zflcx4.png";
     return (
-        <div className='h-screen absolute w-full'>
+        <div className='h-screen absolute w-full block md:hidden'>
             <motion.img
                 initial={{ x: 75, y: -75 }}
                 animate={{ x: 0, y: 0 }}
@@ -24,7 +23,7 @@ const MobileBG = () => {
                 <motion.img
                     src={dhaniya}
                     alt="dhaniya"
-                    className="absolute h-20 bottom-50 right-50 z-10"
+                    className="absolute h-20 bottom-[37%] left-[30%] z-10"
                     initial={{ y: -400, rotate: -10, x: 0 }}
                     animate={{
                         y: 0,

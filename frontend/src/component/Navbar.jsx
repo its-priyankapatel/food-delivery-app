@@ -27,7 +27,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="`h-14 md:h-16 flex items-center justify-between px-1 md:px-2 sticky w-full z-20 top-0 left-0 font-poppins bg-background">
+      <div className="h-14 md:h-16 flex items-center justify-between px-1 md:px-2 sticky w-full z-20 top-0 left-0 font-poppins bg-background">
         <div className="flex gap-1">
           {location.pathname != "/" && (
             <button
@@ -38,7 +38,7 @@ const Navbar = () => {
             </button>
           )}
           <div className="h-14 flex items-center justify-center">
-            <img src="/tasto.png" alt="tasto" className="h-12 md:h-28" onClick={() => navigate("/")} />
+            <img src="/tasto.png" alt="tasto" className="h-12 md:h-16" onClick={() => navigate("/")} />
           </div>
         </div>
         <SearchBar />
