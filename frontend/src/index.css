@@ -6,9 +6,11 @@
 }
 
 @theme {
-  --color-primary: #ffffff;
-  --color-secondary: #4E6C50;
-  --color-tertiary: #820000;
+  --color-background: #FFFFFF;
+  --color-primary: #1A2227;
+  --color-secondary: #1A2227;
+  --color-tertiary: #FBE580;
+  --color-card: #FFFFFF;
   --font-poppins: poppins, "sans-serif";
 }
 

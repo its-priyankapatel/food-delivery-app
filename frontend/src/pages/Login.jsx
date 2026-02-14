@@ -7,6 +7,7 @@ import BG from "../component/BG/BG";
 import { PiForkKnifeFill } from "react-icons/pi";
 import { AiOutlineMail } from "react-icons/ai";
 import { MdLockOutline } from "react-icons/md";
+import { notify } from "../utils/notification.jsx";
 const Login = () => {
   const navigate = useNavigate();
   const { backendUrl, currencySymbol } = useContext(AppContext);
@@ -25,7 +26,7 @@ const Login = () => {
         password,
       });
       if (data.success) {
-        toast.success("User Logged In Successfully");
+        notify("User Logged In Successfully")
         localStorage.setItem("userToken", data.token);
         setEmail("");
         setPassword("");
@@ -42,19 +43,19 @@ const Login = () => {
         <div className="fixed h-screen w-full -z-10">
           <BG />
         </div>
-        <div className="flex flex-col w-full md:w-1/2 items-center py-4 px-4 md:px-8 min-h-screen h-full md:h-auto bg-white">
+        <div className="bg-white flex flex-col w-full md:w-1/2 items-center py-2 px-4 md:px-8 min-h-screen h-full md:h-auto">
           <div className="w-full flex flex-col justify-center items-center gap-1">
-            <div className="h-18 w-18 rounded-full bg-yellow-400 flex justify-center items-center">
-              <PiForkKnifeFill className="text-5xl" />
+            <div className="h-14 w-14 rounded-full bg-yellow-400 flex justify-center items-center">
+              <PiForkKnifeFill className="text-4xl" />
             </div>
-            <h3 className="text-xl md:text-3xl font-extrabold text-black">
+            <h3 className="text-xl md:text-2xl font-extrabold text-black">
               Welcome Back
             </h3>
             <p className="text-sm text-gray-600">
               Sign in to your account to continue ordering
             </p>
           </div>
-          <div className="w-full md:w-[70%] flex flex-col gap-4 md:gap-2 justify-center items-center p-2 md:p-6 rounded-lg border border-[rgba(0,0,0,0.3)] mt-3 md:mt-5">
+          <div className="w-full md:w-[70%] flex flex-col gap-4 md:gap-2 justify-center items-center p-2 md:p-4 rounded-lg border border-[rgba(0,0,0,0.3)] mt-3 md:mt-5">
             <div className="w-full text-center">
               <h1 className="text-xl md:text-2xl font-extrabold text-black">
                 Login
@@ -65,7 +66,7 @@ const Login = () => {
             </div>
             <form
               onSubmit={handleSubmit}
-              className="flex flex-col justify-center w-full gap-4 mt-0 md:mt-2"
+              className="flex flex-col justify-center w-full gap-3 mt-0 md:mt-2"
             >
               <div className="w-full">
                 <label className="text-sm font-semibold text-gray-700">
@@ -101,15 +102,15 @@ const Login = () => {
               <button
                 onClick={handleAuthentication}
                 type="submit"
-                className="h-10 bg-orange-400 text-black font-semibold rounded-sm  text-sm md:text-base cursor-pointer transition duration-300 md:duration-600 active:opacity-70"
+                className="h-10 bg-orange-400 text-black font-semibold rounded-sm  text-sm md:text-base cursor-pointer md:transition  md:duration-600 md:active:opacity-70 active:scale-95"
               >
                 Login
               </button>
             </form>
             <div className="w-full flex gap-1 items-center">
-              <div className="h-[1px] w-1/2 bg-gray-700"></div>
+              <div className="h-px w-1/2 bg-gray-700"></div>
               <p className="text-sm text-gray-700">OR</p>
-              <div className="h-[1px] w-1/2 bg-gray-700"></div>
+              <div className="h-px w-1/2 bg-gray-700"></div>
             </div>
             <button
               onClick={() => navigate("/login/restaurant")}

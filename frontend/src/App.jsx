@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import { ToastContainer } from "react-toastify";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import DisplayFood from "./pages/DisplayFood";
@@ -19,6 +18,7 @@ import RestaurantPublicRoute from "./routes/RestaurantPublicRoute";
 import RestaurantLogin from "./pages/RestaurantLogin";
 import NotFound from "./pages/NotFound";
 import EditFoodItem from "./pages/EditFoodItem";
+import NotificationContainer from "./component/notification/NotificationContainer";
 const App = () => {
   return (
     <>
@@ -71,7 +71,7 @@ const App = () => {
             </RestaurantProtectedRoute>
           }
         />
-       
+
         <Route
           path="/restaurant-dashboard/edit-food/:foodId"
           element={
@@ -130,7 +130,7 @@ const App = () => {
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <ToastContainer />
+      <NotificationContainer />
     </>
   );
 };

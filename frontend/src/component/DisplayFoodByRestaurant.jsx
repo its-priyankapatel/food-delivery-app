@@ -74,7 +74,7 @@ const DisplayFoodRestaurant = () => {
   };
 
   return (
-    <div className="h-auto w-full font-poppins bg-primary py-5">
+    <div className="h-auto w-full font-poppins bg-background py-5">
       <h1 className="text-lg md:text-4xl text-center font-semibold text-primary text-shadow-2xs text-shadow-black py-4 md:py-8 bg-secondary selection:text-tertiary selection:bg-primary h-14 md:h-28">
         Delicious Picks Just for You
       </h1>
@@ -88,7 +88,7 @@ const DisplayFoodRestaurant = () => {
               <div
                 key={index}
                 onClick={() => switchRestaurant(restaurant, food.image)}
-                className="h-78 md:h-92 w-42 md:w-85 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-400 duration-300 cursor-pointer flex flex-col gap-1 md:gap-4"
+                className="h-78 md:h-92 w-42 md:w-85 rounded-xl shadow-lg hover:shadow-2xl bg-card hover:shadow-gray-400 duration-300 cursor-pointer flex flex-col gap-1 md:gap-4"
               >
                 <div className="h-[60%] w-full">
                   <img
