@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaCircleUser } from "react-icons/fa6";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import SearchBar from "./search/searchBar";
+import SearchBar from "./search/SearchBar";
 import { FaShoppingBasket } from "react-icons/fa";
 
 const Navbar = () => {
