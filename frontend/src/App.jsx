@@ -19,6 +19,7 @@ import RestaurantLogin from "./pages/RestaurantLogin";
 import NotFound from "./pages/NotFound";
 import EditFoodItem from "./pages/EditFoodItem";
 import NotificationContainer from "./component/notification/NotificationContainer";
+import RestaurantProfilePage from "./pages/RestaurantProfilePage";
 const App = () => {
   return (
     <>
@@ -52,6 +53,14 @@ const App = () => {
           element={
             <RestaurantProtectedRoute>
               <RestaurantHome />
+            </RestaurantProtectedRoute>
+          }
+        />
+        <Route
+          path="/restaurant-dashboard/profile"
+          element={
+            <RestaurantProtectedRoute>
+              <RestaurantProfilePage />
             </RestaurantProtectedRoute>
           }
         />
