@@ -1,9 +1,15 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { FaCamera } from 'react-icons/fa'
 import { IoIosClose } from 'react-icons/io'
+import Toggle from '../component/ui/Toggle'
+import { AppContext } from '../context/AppContext'
+import { uploadToCloudinary } from '../utils/config/CloudinaryUploads'
+import Spinner from '../component/Spinner'
 
 const RestaurantProfilePage = () => {
+    const coverInputRef = useRef(null)
+    const { currencySymbol } = useContext(AppContext);
     const initialRestaurant = {
         name: "Burger King",
         cover_image: "https://d1rgpf387mknul.cloudfront.net/products/Home/web/1x_web_20260105054903570954_1440x300jpg",
@@ -29,7 +35,6 @@ const RestaurantProfilePage = () => {
 
     const handleTag = (e) => {
         e.preventDefault()
-        console.log("Handle Tag called")
         if (!newTag.trim()) return
         if (restaurant.tags.length >= 10) return
 
@@ -43,6 +48,24 @@ const RestaurantProfilePage = () => {
         setNewTag("")
     }
 
+    const handleCoverChange = (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+
+        // Optional: validate image size (5MB example)
+        if (file.size > 5 * 1024 * 1024) {
+            alert("Image must be less than 5MB")
+            return
+        }
+
+        const previewUrl = URL.createObjectURL(file)
+
+        setRestaurant(prev => ({
+            ...prev,
+            cover_image: previewUrl,
+            cover_file: file   // keep original file for backend upload
+        }))
+    }
     const removeTag = (tagToRemove) => {
         setRestaurant(prev => ({
             ...prev,
@@ -53,18 +76,41 @@ const RestaurantProfilePage = () => {
     const handleSave = async () => {
         try {
             setLoading(true)
-            console.log(restaurant)
-            const response = await axios.post(
+
+            let coverImageUrl = restaurant.cover_image
+
+            if (restaurant.cover_file) {
+                const uploadResult = await uploadToCloudinary({
+                    file: restaurant.cover_file,
+                    onProgress: (pct) => {
+                        console.log("Uploading:", pct + "%")
+                    }
+                })
+
+                coverImageUrl = uploadResult.secure_url
+            }
+
+            const finalPayload = {
+                ...restaurant,
+                cover_image: coverImageUrl,
+                starting_price: Number(restaurant.starting_price),
+                max_delivery_radius: Number(restaurant.max_delivery_radius)
+            }
+
+            delete finalPayload.cover_file
+
+            console.log("FINAL RESTAURANT DATA:")
+            console.log(finalPayload)
+
+            await axios.post(
                 "https://jsonplaceholder.typicode.com/posts",
-                restaurant
+                finalPayload
             )
 
-            console.log("Saved:", response.data)
             alert("Restaurant saved successfully 🚀")
 
         } catch (error) {
-            console.error(error)
-            alert("Something went wrong")
+            console.error("Save failed:", error)
         } finally {
             setLoading(false)
         }
@@ -75,12 +121,27 @@ const RestaurantProfilePage = () => {
         setNewTag("")
     }
     return (
-        <div className='min-h-screen h-full w-full px-2 md:px-24 pb-32'>
+        <div className='relative min-h-screen h-full w-full px-2 md:px-24 pb-32'>
+            {
+
+                loading && <div className='fixed left-0 top-0 h-screen bg-primary/50 w-full z-9999 flex justify-center items-center'>
+                    <Spinner />
+                </div>
+            }
             <div className='h-72 relative'>
                 <div className="h-48 w-full overflow-hidden relative">
-                    <div className='bg-primary size-12 rounded-full absolute flex items-center justify-center hover:scale-105 cursor-pointer bottom-2 right-2'>
+                    <div
+                        onClick={() => coverInputRef.current.click()}
+                        className='bg-primary size-12 rounded-full absolute flex items-center justify-center hover:scale-105 cursor-pointer bottom-2 right-2'>
                         <FaCamera size={24} className='text-white' />
                     </div>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        ref={coverInputRef}
+                        onChange={handleCoverChange}
+                        className="hidden"
+                    />
                     <img
                         src={restaurant.cover_image}
                         alt={restaurant.name}
@@ -207,12 +268,12 @@ const RestaurantProfilePage = () => {
                             value={newTag}
                             onChange={(e) => setNewTag(e.target.value)}
                             placeholder="enter appropriate tag"
-                            className="border-zinc-400 border pl-4 outline-none h-9 text-sm rounded-md bg-zinc-300 focus:bg-white duration-300 transition focus:shadow-md"
+                            className="border-zinc-400 border pl-4 outline-none h-9 text-sm rounded-md duration-300 transition focus:shadow-md"
                         />
                     </div>
                     <div className='flex gap-2'>
                         {restaurant.tags.map((tag, idx) => (
-                            <div key={idx} className='p-2 bg-zinc-400 h-8 rounded-3xl items-center flex gap-2 border-zinc-600 border'>
+                            <div key={idx} className='p-2 pl-4 h-8 rounded-3xl items-center flex gap-2 border-primary border hover:bg-primary hover:text-white transition duration-300'>
                                 <h5>{tag}</h5>
                                 <button
                                     type="button"
@@ -224,12 +285,91 @@ const RestaurantProfilePage = () => {
                         ))}
                     </div>
                 </form>
+
+                {/* Operations (isOpen, accepting Order, minimum price) */}
+                <div className='flex flex-col gap-4 mt-14'>
+                    <div>
+                        <h2 className='text-xl font-bold'>Operations</h2>
+                        <p className='text-zinc-400 text-xs'>Manage your restaurant operations and status</p>
+                    </div>
+                    <div className='border-b border-zinc-400' />
+                    <div className='flex flex-col gap-1'>
+                        <label htmlFor="starting_price" className='text-sm text-zinc-800 font-semibold'>Starting Price ({currencySymbol})</label>
+                        <input value={restaurant.starting_price}
+                            onChange={(e) => {
+                                const value = e.target.value
+                                setRestaurant(prev => ({
+                                    ...prev,
+                                    starting_price: value === "" ? "" : Number(value)
+                                }))
+                            }}
+                            type="number" step={0.1} min={0} placeholder='enter starting price' className='border-zinc-400 border pl-4 outline-none h-9 text-sm rounded-md bg-zinc-300 focus:bg-white duration-300 transition focus:shadow-md' />
+                    </div>
+                    <div className='py-4 px-8 border border-zinc-400/30 h-20 rounded-md flex justify-between items-center'>
+                        <div className='flex flex-col gap-1'>
+                            <label htmlFor="Restaurant Status" className='text-sm text-zinc-800 font-semibold'>Restaurant Status</label>
+                            <p className='text-xs text-zinc-500'>Is your restaurant currently open?</p>
+                        </div>
+                        <div>
+                            <Toggle
+                                isActive={restaurant.is_open}
+                                onToggle={() =>
+                                    setRestaurant(prev => ({
+                                        ...prev,
+                                        is_open: !prev.is_open
+                                    }))
+                                }
+                            />
+                        </div>
+                    </div>
+
+                    <div className='py-4 px-8 border border-zinc-400/30 h-20 rounded-md flex justify-between items-center'>
+                        <div className='flex flex-col gap-1'>
+                            <label htmlFor="Restaurant Status" className='text-sm text-zinc-800 font-semibold'>Accepting Orders</label>
+                            <p className='text-xs text-zinc-500'>Are you currently accepting order?</p>
+                        </div>
+                        <div>
+                            <Toggle
+                                isActive={restaurant.accept_order}
+                                onToggle={() =>
+                                    setRestaurant(prev => ({
+                                        ...prev,
+                                        accept_order: !prev.accept_order
+                                    }))
+                                }
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Delivery Radius */}
+                <div className='flex flex-col mt-12 gap-5'>
+                    <div>
+                        <h2 className='text-xl font-bold'>Delivery</h2>
+                        <p className='text-zinc-400 text-xs'>Delivery area and radius</p>
+                    </div>
+                    <div className='border-b border-zinc-400' />
+                    <div className='flex flex-col gap-1'>
+                        <label htmlFor="starting_price" className='text-sm text-zinc-800 font-semibold'>Max Delivery Radius (Km)</label>
+                        <input value={restaurant.max_delivery_radius}
+                            onChange={(e) => {
+                                const value = e.target.value
+                                setRestaurant(prev => ({
+                                    ...prev,
+                                    max_delivery_radius: value === "" ? "" : Number(value)
+                                }))
+                            }}
+                            type="number" step={1} min={1} placeholder='enter starting price' className='border-zinc-400 border pl-4 outline-none h-9 text-sm rounded-md bg-zinc-300 focus:bg-white duration-300 transition focus:shadow-md' />
+                    </div>
+                </div>
+
+                {/* Save profile and reset profile button */}
                 <div className="flex gap-4 mt-16">
                     <button
                         type="button"
                         onClick={handleSave}
                         disabled={loading}
-                        className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition"
+                        className="bg-primary text-white px-6 py-2 rounded-md hover:bg-primary/80 transition cursor-pointer font-semibold"
                     >
                         {loading ? "Saving..." : "Save"}
                     </button>
@@ -237,7 +377,7 @@ const RestaurantProfilePage = () => {
                     <button
                         type="button"
                         onClick={handleReset}
-                        className="bg-zinc-300 px-6 py-2 rounded-md hover:bg-zinc-400 transition"
+                        className="bg-zinc-300 font-semibold px-6 py-2 rounded-md hover:bg-zinc-400 transition"
                     >
                         Reset
                     </button>

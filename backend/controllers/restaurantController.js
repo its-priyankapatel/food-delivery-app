@@ -38,8 +38,6 @@ export const addRestaurantController = async (req, res) => {
       name,
       mobile,
       description,
-      address,
-      time,
       email,
       password: hashedPassword,
     });
@@ -103,3 +101,59 @@ export const getRestaurantController = async (req, res) => {
     });
   }
 };
+
+
+export const editRestaurantDetails = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const { accept_order,
+      cover_image,
+      description,
+      hours, is_open,
+      location,
+      logo,
+      max_delivery_radius,
+      name,
+      starting_price,
+      tags } = req.body;
+
+    if (name == null || description == null) {
+      return res.status(400).send({
+        success: true,
+        message: "provide necessary fields"
+      })
+    }
+    const restaurant = await Restaurant.findById(id);
+    if (!restaurant) {
+      return res.status(404).send({
+        success: false,
+        message: "Restaurant does not exist"
+      })
+    }
+
+    restaurant.accept_order = accept_order;
+    restaurant.cover_image = cover_image;
+    restaurant.description = description;
+    restaurant.hours = hours;
+    restaurant.is_open = is_open;
+    restaurant.location = location;
+    restaurant.logo = logo;
+    restaurant.max_delivery_radius = max_delivery_radius;
+    restaurant.name = name;
+    restaurant.starting_price = starting_price;
+    restaurant.tags = tags;
+
+    const updatedRestaurant = await restaurant.save();
+    return res.status(200).send({
+      success: true,
+      message: "Details updated successfully",
+      updatedRestaurant: updatedRestaurant
+    })
+  } catch (e) {
+    console.log(e)
+    return res.status(500).send({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+}

@@ -2,7 +2,9 @@
   position: relative;
   width: 64px;
   height: 60px;
+  z-index: 9999;
 }
+
 .loader::after {
   content: '';
   position: absolute;
@@ -14,6 +16,7 @@
   border-radius: 0 0 50px 50px;
   animation: move 0.5s linear infinite alternate;
 }
+
 .loader::before {
   content: '';
   position: absolute;
@@ -27,10 +30,17 @@
 }
 
 @keyframes rotate {
-  100% { transform: translateX(-50%) rotate(360deg)}
+  100% {
+    transform: translateX(-50%) rotate(360deg)
+  }
 }
+
 @keyframes move {
-  0% { transform: rotate(10deg)}
-  100% { transform: rotate(-10deg)}
+  0% {
+    transform: rotate(10deg)
+  }
+
+  100% {
+    transform: rotate(-10deg)
+  }
 }
-  
