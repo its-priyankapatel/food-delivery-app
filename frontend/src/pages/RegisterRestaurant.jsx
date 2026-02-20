@@ -3,6 +3,7 @@ import { AppContext } from "./../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { FaCamera } from "react-icons/fa";
 
 const RegisterRestaurant = () => {
   const signup =
@@ -17,7 +18,7 @@ const RegisterRestaurant = () => {
   const [rating, SetRating] = useState(0);
   const [description, setDesription] = useState("");
   const navigate = useNavigate();
-
+  const logo = "https://res.cloudinary.com/dbbmvt91t/image/upload/v1771624081/Untitled_design_mrdmxd.png";
   const registerRestaurant = async () => {
     if (
       !name ||
@@ -64,87 +65,74 @@ const RegisterRestaurant = () => {
   };
   return (
     <>
-      <div
-        className="flex h-screen w-full justify-center items-center bg-center bg-cover "
-        style={{ backgroundImage: `url(${signup})` }}
-      >
-        <div className="flex flex-col justify-center items-center h-[80%] md:h-[90%] w-[95%] md:w-[40%] backdrop-blur-md rounded-lg shadow-lg shadow-black gap-5">
-          <h3 className="text-2xl font-semibold text-white text-center mb-5 text-shadow-sm text-shadow-black/50 selection:bg-primary selection:text-tertiary">
-            Register as a Restaurant
-          </h3>
-
-          <div className="w-full h-auto flex flex-col items-center justify-center gap-5">
-            <div className="w-full flex gap-4 justify-center">
-              <input
-                onChange={(e) => setName(e.target.value)}
-                className="h-10 w-[45%] md:w-[40%] pl-1 md:pl-2 border-2 border-white outline-none text-sm md:text-base rounded-md text-white placeholder:text-white focus:border-primary"
-                type="text"
-                value={name}
-                placeholder="Restaurant Name"
-              />
-              <input
-                onChange={(e) => setLocation(e.target.value)}
-                className="h-10 w-[45%] md:w-[40%] pl-1 md:pl-2 border-2 outline-none  rounded-md text-sm md:text-base text-white placeholder:text-white focus:border-primary"
-                type="text"
-                value={location}
-                placeholder="Restaurant Location"
-              />
+      <div className="h-screen w-full px-4 md:px-24 font-poppins">
+        <div className="flex h-full w-full mt-4">
+          <div className="bg-primary h-auto w-1/4 rounded-t-full flex flex-col gap-2 items-center pt-6 pb-20">
+            <div className="size-48 rounded-full border-2 border-white p-1 relative">
+              <img src={logo} alt="restaurant logo" className="h-full rounded-full" />
+              <div
+                onClick={() => logoInput.current.click()}
+                className='bg-primary size-12 rounded-full absolute flex items-center justify-center hover:scale-105 cursor-pointer bottom-2 right-2'>
+                <FaCamera size={24} className='text-white' />
+              </div>
             </div>
-            <div className="w-full flex gap-4 justify-center">
-              <input
-                onChange={(e) => setEmail(e.target.value)}
-                className="h-10 pl-1 md:pl-2 w-[45%] md:w-[40%] border-2 outline-none text-sm md:text-base rounded-md text-white placeholder:text-white focus:border-primary"
-                type="email"
-                value={email}
-                placeholder="E-mail"
-              />
-              <input
-                onChange={(e) => setPassword(e.target.value)}
-                className="h-10 pl-1 md:pl-2 w-[45%] md:w-[40%] border-2 outline-none text-sm md:text-base rounded-md text-white placeholder:text-white focus:border-primary"
-                type="password"
-                value={password}
-                placeholder="Password"
-              />
-            </div>
-            <div className="w-full flex gap-4 justify-center">
-              <input
-                onChange={(e) => setMobile(e.target.value)}
-                className="h-10 w-[45%] md:w-[40%] pl-1 md:pl-2 border-2 outline-none text-sm md:text-base rounded-md text-white placeholder:text-white focus:border-primary"
-                type="text"
-                value={mobile}
-                placeholder="Mobile"
-              />
-              <input
-                onChange={(e) => setTime(e.target.value)}
-                className="h-10 pl-1 md:pl-2 w-[45%] text-sm md:text-base md:w-[40%] border-2 outline-none rounded-md text-white placeholder:text-white focus:border-primarys"
-                type="text"
-                value={time}
-                placeholder="Time"
-              />
-            </div>
-            <textarea
-              onChange={(e) => setDesription(e.target.value)}
-              className="h-16 w-[95%] md:w-[82%] text-sm md:text-base pl-1 md:pl-2 border-2 outline-none rounded-md text-white placeholder:text-white focus:border-primary"
-              type="text"
-              value={description}
-              placeholder="Description"
-            />
-            <button
-              onClick={registerRestaurant}
-              className="h-9 md:h-9 w-22 md:w-24 bg-primary text-tertiary font-semibold text-base rounded-md cursor-pointer focus:border-primary transition duration-300 md:duration-600 active:opacity-70"
-            >
-              Register
-            </button>
+            <label htmlFor="logo" className="text-white">upload your logo</label>
           </div>
-          <p className="pl-2">
-            Already have an account?{" "}
-            <span
-              className="text-primary cursor-pointer"
-              onClick={() => navigate("/login")}
-            >
-              Login here
-            </span>
-          </p>
+          <div className="bg-primary/5 h-auto w-full rounded-t-[20%] pt-32 px-5 pb-20">
+            {/* name */}
+            <div className="flex flex-col gap-2">
+              <div>
+                <label htmlFor="name" className="font-semibold text-base">Restaurant Name</label>
+                <p className="text-xs text-zinc-400">Enter your Restaurant or Hotel name</p>
+              </div>
+              <input type="text" className="h-10 bg-white p-2 rounded-md border border-zinc-400 focus:shadow-md outline-none" />
+            </div>
+
+            {/* email and mobile */}
+            <div className="flex justify-between mt-5 gap-10 w-full">
+              <div className="flex flex-col gap-2 w-full">
+                <div className="w-full">
+                  <label htmlFor="email" className="font-semibold text-base">Email</label>
+                  <p className="text-xs text-zinc-400">Enter your valid email address</p>
+                </div>
+                <input type="text" className="h-10 w-full bg-white p-2 rounded-md border border-zinc-400 focus:shadow-md outline-none" />
+              </div>
+              <div className="flex flex-col gap-2 w-full">
+                <div className="w-full">
+                  <label htmlFor="mobile" className="font-semibold text-base">Mobile</label>
+                  <p className="text-xs text-zinc-400">Enter your valid contact number</p>
+                </div>
+                <input type="text" className="h-10 w-full bg-white p-2 rounded-md border border-zinc-400 focus:shadow-md outline-none" />
+              </div>
+            </div>
+
+            {/* password */}
+            <div className="flex flex-col gap-2 mt-5">
+              <div>
+                <label htmlFor="password" className="font-semibold text-base">Password</label>
+                <p className="text-xs text-zinc-400">Enter a secure password for login</p>
+              </div>
+              <input type="password" className="h-10 bg-white p-2 rounded-md border border-zinc-400 focus:shadow-md outline-none" />
+            </div>
+
+            {/* Description */}
+            <div className="flex flex-col gap-2 mt-5">
+              <div>
+                <label htmlFor="description" className="font-semibold text-base">Description</label>
+                <p className="text-xs text-zinc-400">Enter a restaurant description or brief summary</p>
+              </div>
+              <textarea type="password" placeholder="Description" className="min-h-20 text-sm bg-white p-2 rounded-md border border-zinc-400 focus:shadow-md outline-none" />
+            </div>
+
+            {/* Register & Login */}
+            <div>
+              <button></button>
+              <div />
+              <div>
+                <p className="text-xs">already have an account?</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

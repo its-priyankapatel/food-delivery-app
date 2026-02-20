@@ -27,7 +27,7 @@ const Categories = ({ titleText = "Categories", active = false, activeName = "" 
             <h1 className='text-xl font-bold font-poppins flex items-center'>{titleText}
                 <FaChevronRight className='text-base pl-2' />
             </h1>
-            <div className='scroll-smooth h-40 py-2 w-full overflow-x-auto flex gap-2 items-center scrollbar-hide'>
+            <div className='scroll-smooth h-40 py-2 w-full overflow-x-auto flex gap-1 md:gap-2 items-center scrollbar-hide'>
                 {categories
                     .filter(category =>
                         !(active && category.name === activeName)

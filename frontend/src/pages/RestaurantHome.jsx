@@ -8,6 +8,7 @@ import { TbMeat } from "react-icons/tb";
 import FoodCard from "../component/FoodCard";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../component/Spinner";
+import DefaultImage from '../assets/icons/DefaultRestaurant.png'
 
 const RestaurantHome = () => {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const RestaurantHome = () => {
   const handleFilter2Click = (filterType) => {
     setFilter2(filterType);
   };
+
 
   const stats = [
     {
@@ -107,7 +109,12 @@ const RestaurantHome = () => {
               </button>
             )}
           </div>
+          <div className="size-12 border-2 flex items-center justify-center border-green-500 rounded-full"
+            onClick={() => navigate('/restaurant-dashboard/profile')}>
+            <img src={DefaultImage} className="bg-zinc-400 size-[92%] opacity-50 rounded-full hover:size-full transition duration-500"></img>
+          </div>
         </div>
+
       </div>
 
       {/* Stats Grid */}
@@ -145,16 +152,15 @@ const RestaurantHome = () => {
           {["all", "in_stock", "out_of_stock"].map((f) => (
             <p
               key={f}
-              className={`h-9 border border-[rgba(0,0,0,0.1)] px-2 flex items-center justify-center text-sm rounded-md hover:bg-[#0b8045] hover:text-white cursor-default active:scale-95 ${
-                filter1 === f ? "bg-[#006C36] text-white" : ""
-              }`}
+              className={`h-9 border border-[rgba(0,0,0,0.1)] px-2 flex items-center justify-center text-sm rounded-md hover:bg-[#0b8045] hover:text-white cursor-default active:scale-95 ${filter1 === f ? "bg-[#006C36] text-white" : ""
+                }`}
               onClick={() => handleFilter1Click(f)}
             >
               {f === "all"
                 ? "All Items"
                 : f === "in_stock"
-                ? "In Stock"
-                : "Out of Stock"}
+                  ? "In Stock"
+                  : "Out of Stock"}
             </p>
           ))}
         </div>
@@ -180,16 +186,14 @@ const RestaurantHome = () => {
             return (
               <div
                 key={f.key}
-                className={`h-9 border border-[rgba(0,0,0,0.1)] px-2 flex items-center justify-center gap-2 text-sm rounded-md hover:bg-[#0b8045] hover:text-white cursor-default active:scale-95 ${
-                  isActive ? "bg-[#006C36] text-white" : ""
-                }`}
+                className={`h-9 border border-[rgba(0,0,0,0.1)] px-2 flex items-center justify-center gap-2 text-sm rounded-md hover:bg-[#0b8045] hover:text-white cursor-default active:scale-95 ${isActive ? "bg-[#006C36] text-white" : ""
+                  }`}
                 onClick={() => handleFilter2Click(f.key)}
               >
                 {f.icon && (
                   <f.icon
-                    className={`${
-                      isActive ? "text-white" : f.defaultColor
-                    } group-hover:text-white`}
+                    className={`${isActive ? "text-white" : f.defaultColor
+                      } group-hover:text-white`}
                   />
                 )}
                 <span>{f.label}</span>

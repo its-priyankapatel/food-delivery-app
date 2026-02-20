@@ -1,6 +1,6 @@
 import "./Spinner.css";
-const Spinner = () => {
-  return <span className="loader"></span>;
+const Spinner = ({ className }) => {
+  return <span className={`loader ${className}`}></span>;
 };
 
 export default Spinner;

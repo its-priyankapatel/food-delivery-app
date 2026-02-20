@@ -6,18 +6,20 @@ import MobileBG from "../component/BG/MobileBG";
 import Categories from "../component/home/Categories";
 
 const Home = () => {
+  const vector = "https://res.cloudinary.com/driqu2cgm/image/upload/w_1000/q_auto/f_auto/v1771054100/vector_gn1oe9.png"
   const pasta = "https://res.cloudinary.com/driqu2cgm/image/upload/w_1000/q_auto/f_auto/v1770914412/pngwing.com_4_ahv60r.png";
+  const leaf = "https://res.cloudinary.com/driqu2cgm/image/upload/w_1000/q_auto/f_auto/v1771054100/leafs_moavja.png"
   return (
     <>
-      <div className="pb-20 md:px-10 h-auto w-full scroll-smooth transition duration-500">
+      <div className="pb-20 h-auto w-full scroll-smooth transition duration-500">
         <div className="w-full h-screen relative overflow-x-clip bg-background">
           <MobileBG />
           <Navbar />
           <div className="h-full relative flex items-center">
             <div className="hidden md:block">
-              <img src="/vector.png" alt="vector" className="select-none h-full md:h-[90%] top-0 absolute -right-10 md:right-0" />
+              <img src={vector} alt="vector" className="select-none h-full md:h-[90%] top-0 absolute -right-10 md:right-0" />
               <img src={pasta} alt="pasta" className="absolute h-[40%] md:h-[60%] -right-20 md:right-40 top-30 md:top-20 z-10" />
-              <img src="/leafs.png" alt="" className="absolute h-20 md:h-44 right-0 bottom-10 opacity-30" />
+              <img src={leaf} alt="" className="absolute h-20 md:h-44 right-0 bottom-10 opacity-30" />
             </div>
             <div className="h-[50%] w-[80%] md:w-[35%] ml-3 md:ml-10">
               <h1 className="text-3xl md:text-5xl text-primary font-poppins font-bold">Good Food.</h1>
@@ -36,7 +38,9 @@ const Home = () => {
           </div>
         </div>
         <PromoAndProducts />
-        <Categories titleText={"Explore Categories"} />
+        <div className="px-2 md:px-10">
+          <Categories titleText={"Explore Categories"} />
+        </div>
       </div>
     </>
   );
