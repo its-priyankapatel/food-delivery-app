@@ -3,14 +3,11 @@ import bcrypt from "bcrypt";
 
 export const addRestaurantController = async (req, res) => {
   try {
-    const { name, mobile, description, address, time, email, password } =
+    const { name, mobile, description, email, password, logo } =
       req.body;
     if (
       !name ||
       !mobile ||
-      !description ||
-      !address ||
-      !time ||
       !email ||
       !password
     ) {
@@ -40,6 +37,7 @@ export const addRestaurantController = async (req, res) => {
       description,
       email,
       password: hashedPassword,
+      logo
     });
     await newRestaurant.save();
     return res.status(201).send({
@@ -79,9 +77,33 @@ export const FetchAllRestaurantController = async (req, res) => {
   }
 };
 
+export const getRestaurantDetail = async (req, res) => {
+  try {
+    const { id } = req.restaurant;
+    const restaurant = await Restaurant.findById(id);
+    if (!restaurant) {
+      return res.status(404).send({
+        success: false,
+        message: "Restaurant Not Found",
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      message: "Get Restaurant Successfully",
+      restaurant: restaurant,
+    });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).send({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+}
+
 export const getRestaurantController = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.restaurant;
     const restaurant = await Restaurant.findById(id).populate("food");
     if (!restaurant) {
       return res.status(404).send({
@@ -102,10 +124,19 @@ export const getRestaurantController = async (req, res) => {
   }
 };
 
+export const verifyRestaurant = async (req, res) => {
+  const { id } = req.restaurant;
+  return res.status(200).send({
+    success: true,
+    message: "Restaurant is valid",
+    id: id
+  })
+}
+
 
 export const editRestaurantDetails = async (req, res) => {
   try {
-    const { id } = req.user;
+    const { id } = req.restaurant;
     const { accept_order,
       cover_image,
       description,

@@ -7,9 +7,9 @@ import fs from "fs";
 
 export const AddfoodController = async (req, res) => {
   try {
-    const { name, price, description, category, rating } = req.body;
-    const inStock = req.body.inStock === "true";
-    const isVeg = req.body.isVeg === "true";
+    const { name, price, description, category, rating, image } = req.body;
+    const inStock = req.body.inStock === true;
+    const isVeg = req.body.isVeg === true;
     const { id } = req.user;
 
     if (!name || !price || !description || !category || inStock === undefined) {
@@ -26,9 +26,6 @@ export const AddfoodController = async (req, res) => {
         message: "You do not have permission to add food",
       });
     }
-
-    const imageUrl = await cloudinary.uploader.upload(req.file.path);
-    fs.unlinkSync(req.file.path);
 
     let isCategory = await Category.findOne({ name: category });
     if (!isCategory) {
@@ -50,7 +47,7 @@ export const AddfoodController = async (req, res) => {
       inStock,
       isVeg,
       rating,
-      image: imageUrl.secure_url,
+      image,
       restaurant: isRestaurantExist._id,
     });
 

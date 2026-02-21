@@ -4,15 +4,19 @@ import {
   editRestaurantDetails,
   FetchAllRestaurantController,
   getRestaurantController,
+  getRestaurantDetail,
+  verifyRestaurant
 } from "../controllers/restaurantController.js";
 
-import { authMiddleware } from "./../Middlewares/authMiddleware.js";
+import { restaurantAuthMiddleware } from './../Middlewares/restaurantAuthMiddleware.js';
 
 const router = express.Router();
 
 router.post("/add-restaurant", addRestaurantController);
-router.get("/get-all-restaurant", authMiddleware, FetchAllRestaurantController);
-router.get("/get-restaurant/:id", authMiddleware, getRestaurantController);
-router.patch('/edit', authMiddleware, editRestaurantDetails);
+router.get("/get-all-restaurant", restaurantAuthMiddleware, FetchAllRestaurantController);
+router.get("/get-restaurant", restaurantAuthMiddleware, getRestaurantController);
+router.get("/retrive-restaurant", restaurantAuthMiddleware, getRestaurantDetail)
+router.patch('/edit', restaurantAuthMiddleware, editRestaurantDetails);
+router.get('/verify', restaurantAuthMiddleware, verifyRestaurant);
 
 export default router;

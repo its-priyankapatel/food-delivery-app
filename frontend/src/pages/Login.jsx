@@ -8,10 +8,11 @@ import { PiForkKnifeFill } from "react-icons/pi";
 import { AiOutlineMail } from "react-icons/ai";
 import { MdLockOutline } from "react-icons/md";
 import { notify } from "../utils/notification.jsx";
+import { useNotification } from "../component/shared/notificationProvider.jsx";
 const Login = () => {
   const navigate = useNavigate();
   const { backendUrl, currencySymbol } = useContext(AppContext);
-
+  const { showNotification } = useNotification();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -26,7 +27,7 @@ const Login = () => {
         password,
       });
       if (data.success) {
-        notify("User Logged In Successfully")
+        showNotification("Login successful", "success")
         localStorage.setItem("userToken", data.token);
         setEmail("");
         setPassword("");
@@ -34,7 +35,7 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong, Please login again");
+      showNotification("Something went wrong", "error");
     }
   };
   return (
