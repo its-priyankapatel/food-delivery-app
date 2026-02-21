@@ -10,8 +10,10 @@ import {
   validateRequiredFields,
 } from "../helpers/FoodFormHelper";
 import Spinner from "../component/Spinner";
+import { useNotification } from "../component/shared/notificationProvider";
 const EditFoodItem = () => {
   const { foodId } = useParams();
+  const { showNotification } = useNotification();
   const [originalData, setOriginalData] = useState({});
   const [foodLoading, setFoodLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -63,6 +65,7 @@ const EditFoodItem = () => {
   useEffect(() => {
     if (foodId) fetchFood(foodId);
   }, [foodId]);
+
 
   const { backendUrl, fetchRestaurant } = useContext(AppContext);
   const [imagePreview, setImagePreview] = useState(null);
@@ -116,26 +119,26 @@ const EditFoodItem = () => {
 
     const requiredFields = ["name", "price", "category"];
     const errorMsg = validateRequiredFields(updatedData, requiredFields);
-    if (errorMsg) return toast.error(errorMsg);
+    if (errorMsg) return showNotification(errorMsg, "error");
 
     if (Object.keys(updatedData).length === 0) {
-      return toast.info("No changes detected.");
+      return showNotification("No changes detected.", "info");
     }
 
     // Convert booleans to strings for FormData
     updatedData.inStock = formData.inStock ? "true" : "false";
     updatedData.isVeg = formData.isVeg ? "true" : "false";
 
-    const data = new FormData();
+    const payloadData = new FormData();
     Object.entries(updatedData).forEach(([key, value]) => {
-      data.append(key, value);
+      payloadData.append(key, value);
     });
 
     try {
       setFoodLoading(true);
-      const response = await axios.patch(
+      const { data } = await axios.patch(
         `${backendUrl}/api/food/edit/${foodId}`,
-        data,
+        payloadData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -144,16 +147,16 @@ const EditFoodItem = () => {
         }
       );
 
-      if (response.data.success) {
-        toast.success("Food item updated successfully!");
+      if (data.success) {
+        showNotification("Food item updated successfully!", "success");
         fetchRestaurant();
         navigate(-1);
       } else {
-        toast.error("Failed to update food item.");
+        showNotification(data.message, "error");
       }
     } catch (error) {
       console.error("❌ Error updating food item:", error);
-      toast.error("Failed to update food item.");
+      showNotification("Failed to update food item.", "error");
     } finally {
       setFoodLoading(false);
     }
@@ -188,9 +191,8 @@ const EditFoodItem = () => {
             Food Image
           </p>
           <div
-            className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors h-full w-full hover:border-green-500 ${
-              dragActive ? "border-green-500 bg-green-50" : "border-gray-300"
-            }`}
+            className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors h-full w-full hover:border-green-500 ${dragActive ? "border-green-500 bg-green-50" : "border-gray-300"
+              }`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
@@ -325,22 +327,20 @@ const EditFoodItem = () => {
             <div className="flex w-full gap-4">
               <div
                 onClick={() => handleFoodType(true)}
-                className={`flex p-2 justify-center items-center w-1/3 h-10 gap-3 border rounded-lg cursor-pointer ${
-                  formData.isVeg
-                    ? "border-green-500 bg-green-500/15"
-                    : "border-[rgba(0,0,0,0.1)] hover:border-green-500"
-                }`}
+                className={`flex p-2 justify-center items-center w-1/3 h-10 gap-3 border rounded-lg cursor-pointer ${formData.isVeg
+                  ? "border-green-500 bg-green-500/15"
+                  : "border-[rgba(0,0,0,0.1)] hover:border-green-500"
+                  }`}
               >
                 <IoRadioButtonOn className="text-green-600" />
                 <p className="text-sm text-gray-700">Vegetarian</p>
               </div>
               <div
                 onClick={() => handleFoodType(false)}
-                className={`flex p-2 justify-center items-center w-1/3 h-10 gap-3 border rounded-lg cursor-pointer ${
-                  !formData.isVeg
-                    ? "border-red-600 bg-red-600/15"
-                    : "border-[rgba(0,0,0,0.1)] hover:border-red-600"
-                }`}
+                className={`flex p-2 justify-center items-center w-1/3 h-10 gap-3 border rounded-lg cursor-pointer ${!formData.isVeg
+                  ? "border-red-600 bg-red-600/15"
+                  : "border-[rgba(0,0,0,0.1)] hover:border-red-600"
+                  }`}
               >
                 <IoRadioButtonOn className="text-red-600" />
                 <p className="text-sm text-gray-700">Non-Vegetarian</p>

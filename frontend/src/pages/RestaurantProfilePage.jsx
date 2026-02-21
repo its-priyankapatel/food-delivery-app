@@ -1,46 +1,40 @@
 import axios from 'axios'
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { FaCamera } from 'react-icons/fa'
 import { IoIosClose } from 'react-icons/io'
 import Toggle from '../component/ui/Toggle'
 import { AppContext } from '../context/AppContext'
 import { uploadToCloudinary } from '../utils/config/CloudinaryUploads'
 import Spinner from '../component/Spinner'
+import { IoArrowBack } from 'react-icons/io5'
+import { useNavigate } from 'react-router-dom'
+import { useNotification } from './../component/shared/notificationProvider';
 
 const RestaurantProfilePage = () => {
     const coverInputRef = useRef(null)
+    const { showNotification } = useNotification()
+    const navigate = useNavigate()
+    const { backendUrl, fetchRestaurant, restaurant } = useContext(AppContext)
     const { currencySymbol } = useContext(AppContext);
-    const initialRestaurant = {
-        name: "Burger King",
-        cover_image: "https://d1rgpf387mknul.cloudfront.net/products/Home/web/1x_web_20260105054903570954_1440x300jpg",
-        logo: "https://tse4.mm.bing.net/th/id/OIP.cuT8f44iiICDTIAdw1Ns6gHaEK?cb=defcache2&defcache=1&rs=1&pid=ImgDetMain&o=7&rm=3",
-        starting_price: "49",
-        tags: ["burger", "pizza", "fries"],
-        description: "Burger King is known for its flame-grilled burgers, including the iconic Whopper, which features a flame-grilled beef patty topped with fresh lettuce, ripe tomatoes, onions, pickles, and a tangy signature sauce, all served on a sesame seed bun.",
-        location: {
-            address: "Hinjewadi, phase 3, Pune",
-            city: "Pune"
-        },
-        hours: {
-            open: "10:00",
-            close: "22:00"
-        },
-        is_open: false,
-        accept_order: false,
-        max_delivery_radius: 23.1
-    }
-    const [restaurant, setRestaurant] = useState(initialRestaurant);
+    const [initialRestaurant, setInitialRequest] = useState(restaurant)
+    const [restaurantData, setRestaurantData] = useState(initialRestaurant);
     const [loading, setLoading] = useState(false)
     const [newTag, setNewTag] = useState("");
 
+    useEffect(() => {
+        if (restaurant) {
+            setInitialRequest(restaurant);
+            setRestaurantData(restaurant);
+        }
+    }, [restaurant]);
     const handleTag = (e) => {
         e.preventDefault()
         if (!newTag.trim()) return
-        if (restaurant.tags.length >= 10) return
+        if (restaurantData.tags.length >= 10) return
 
-        if (restaurant.tags.includes(newTag.toLowerCase())) return
+        if (restaurantData.tags.includes(newTag.toLowerCase())) return
 
-        setRestaurant(prev => ({
+        setRestaurantData(prev => ({
             ...prev,
             tags: [...prev.tags, newTag.toLowerCase()]
         }))
@@ -54,20 +48,20 @@ const RestaurantProfilePage = () => {
 
         // Optional: validate image size (5MB example)
         if (file.size > 5 * 1024 * 1024) {
-            alert("Image must be less than 5MB")
+            showNotification("Image must be less than 5MB", "info")
             return
         }
 
         const previewUrl = URL.createObjectURL(file)
 
-        setRestaurant(prev => ({
+        setRestaurantData(prev => ({
             ...prev,
             cover_image: previewUrl,
             cover_file: file   // keep original file for backend upload
         }))
     }
     const removeTag = (tagToRemove) => {
-        setRestaurant(prev => ({
+        setRestaurantData(prev => ({
             ...prev,
             tags: prev.tags.filter(tag => tag !== tagToRemove)
         }))
@@ -77,11 +71,11 @@ const RestaurantProfilePage = () => {
         try {
             setLoading(true)
 
-            let coverImageUrl = restaurant.cover_image
+            let coverImageUrl = restaurantData.cover_image
 
-            if (restaurant.cover_file) {
+            if (restaurantData.cover_file) {
                 const uploadResult = await uploadToCloudinary({
-                    file: restaurant.cover_file,
+                    file: restaurantData.cover_file,
                     onProgress: (pct) => {
                         console.log("Uploading:", pct + "%")
                     }
@@ -91,23 +85,24 @@ const RestaurantProfilePage = () => {
             }
 
             const finalPayload = {
-                ...restaurant,
+                ...restaurantData,
                 cover_image: coverImageUrl,
-                starting_price: Number(restaurant.starting_price),
-                max_delivery_radius: Number(restaurant.max_delivery_radius)
+                starting_price: Number(restaurantData.starting_price),
+                max_delivery_radius: Number(restaurantData.max_delivery_radius)
             }
 
             delete finalPayload.cover_file
 
-            console.log("FINAL RESTAURANT DATA:")
-            console.log(finalPayload)
-
-            await axios.post(
-                "https://jsonplaceholder.typicode.com/posts",
-                finalPayload
+            const token = localStorage.getItem("restaurantToken")
+            const { data } = await axios.patch(
+                backendUrl + '/api/restaurant/edit',
+                finalPayload,
+                { headers: { Authorization: `Bearer ${token}` } }
             )
-
-            alert("Restaurant saved successfully 🚀")
+            if (data.success) {
+                showNotification("Restaurant saved successfully", "success")
+                fetchRestaurant()
+            }
 
         } catch (error) {
             console.error("Save failed:", error)
@@ -117,7 +112,7 @@ const RestaurantProfilePage = () => {
     }
 
     const handleReset = () => {
-        setRestaurant(initialRestaurant)
+        setRestaurantData(initialRestaurant)
         setNewTag("")
     }
     return (
@@ -128,6 +123,12 @@ const RestaurantProfilePage = () => {
                     <Spinner />
                 </div>
             }
+            <div
+                onClick={() => navigate(-1)}
+                className="absolute top-2 left-2 h-12 w-12 border-2 border-primary/80 rounded-full flex items-center justify-center cursor-pointer"
+            >
+                <IoArrowBack className="text-2xl text-gray-700" />
+            </div>
             <div className='h-72 relative'>
                 <div className="h-48 w-full overflow-hidden relative">
                     <div
@@ -143,13 +144,13 @@ const RestaurantProfilePage = () => {
                         className="hidden"
                     />
                     <img
-                        src={restaurant.cover_image}
-                        alt={restaurant.name}
+                        src={restaurantData?.cover_image}
+                        alt={restaurantData?.name}
                         className="h-full w-full object-cover"
                     />
                 </div>
                 <div className='absolute size-40 rounded-full left-4 top-[40%] overflow-hidden border-green-500 border-2 flex items-center justify-center bg-white'>
-                    <img src={restaurant.logo} alt={restaurant.name} />
+                    <img src={restaurantData?.logo} alt={restaurantData?.name} />
                 </div>
             </div>
             <div className='font-poppins'>
@@ -162,9 +163,9 @@ const RestaurantProfilePage = () => {
                     <div className='border-b border-zinc-400' />
                     <div className='flex flex-col gap-1'>
                         <label htmlFor="restaurant name" className='text-sm text-zinc-800 font-semibold'>Restaurant Name</label>
-                        <input value={restaurant.name}
+                        <input value={restaurantData?.name}
                             onChange={(e) =>
-                                setRestaurant(prev => ({
+                                setRestaurantData(prev => ({
                                     ...prev,
                                     name: e.target.value
                                 }))
@@ -175,12 +176,12 @@ const RestaurantProfilePage = () => {
                         <label htmlFor="restaurant name" className='text-sm text-zinc-800 font-semibold'>Description</label>
                         <textarea
                             onChange={(e) =>
-                                setRestaurant(prev => ({
+                                setRestaurantData(prev => ({
                                     ...prev,
                                     description: e.target.value
                                 }))
                             }
-                            value={restaurant.description} type="text" placeholder='enter restaurant name' className='border-zinc-400 border scrollbar-hidden outline-none min-h-20 py-2 px-4 h-9 text-sm rounded-md bg-zinc-300 focus:bg-white duration-300 transition focus:shadow-md' />
+                            value={restaurantData?.description} type="text" placeholder='enter restaurant name' className='border-zinc-400 border scrollbar-hidden outline-none min-h-20 py-2 px-4 h-9 text-sm rounded-md bg-zinc-300 focus:bg-white duration-300 transition focus:shadow-md' />
                     </div>
                 </div>
 
@@ -193,9 +194,9 @@ const RestaurantProfilePage = () => {
                     <div className='border-b border-zinc-400' />
                     <div className='flex flex-col gap-1'>
                         <label htmlFor="restaurant name" className='text-sm text-zinc-800 font-semibold'>Address</label>
-                        <input value={restaurant.location.address}
+                        <input value={restaurantData?.location?.address}
                             onChange={(e) =>
-                                setRestaurant(prev => ({
+                                setRestaurantData(prev => ({
                                     ...prev,
                                     location: {
                                         ...prev.location,
@@ -207,8 +208,8 @@ const RestaurantProfilePage = () => {
                     </div>
                     <div className='flex flex-col gap-1'>
                         <label htmlFor="restaurant name" className='text-sm text-zinc-800 font-semibold'>City</label>
-                        <input value={restaurant.location.city}
-                            onChange={(e) => setRestaurant(prev => ({
+                        <input value={restaurantData?.location?.city}
+                            onChange={(e) => setRestaurantData(prev => ({
                                 ...prev,
                                 location: {
                                     ...prev.location,
@@ -229,8 +230,8 @@ const RestaurantProfilePage = () => {
                     <div className='flex gap-10'>
                         <div className='flex flex-col gap-1 w-full'>
                             <label htmlFor="restaurant name" className='text-sm text-zinc-800 font-semibold'>Opening Time</label>
-                            <input value={restaurant.hours.open}
-                                onChange={(e) => setRestaurant(prev => ({
+                            <input value={restaurantData?.hours?.open}
+                                onChange={(e) => setRestaurantData(prev => ({
                                     ...prev,
                                     hours: {
                                         ...prev.hours,
@@ -241,8 +242,8 @@ const RestaurantProfilePage = () => {
                         </div>
                         <div className='flex flex-col gap-1 w-full'>
                             <label htmlFor="restaurant name" className='text-sm text-zinc-800 font-semibold'>Closing Time</label>
-                            <input value={restaurant.hours.close}
-                                onChange={(e) => setRestaurant(prev => ({
+                            <input value={restaurantData?.hours?.close}
+                                onChange={(e) => setRestaurantData(prev => ({
                                     ...prev,
                                     hours: {
                                         ...prev.hours,
@@ -272,7 +273,7 @@ const RestaurantProfilePage = () => {
                         />
                     </div>
                     <div className='flex gap-2'>
-                        {restaurant.tags.map((tag, idx) => (
+                        {restaurantData?.tags?.map((tag, idx) => (
                             <div key={idx} className='p-2 pl-4 h-8 rounded-3xl items-center flex gap-2 border-primary border hover:bg-primary hover:text-white transition duration-300'>
                                 <h5>{tag}</h5>
                                 <button
@@ -295,10 +296,10 @@ const RestaurantProfilePage = () => {
                     <div className='border-b border-zinc-400' />
                     <div className='flex flex-col gap-1'>
                         <label htmlFor="starting_price" className='text-sm text-zinc-800 font-semibold'>Starting Price ({currencySymbol})</label>
-                        <input value={restaurant.starting_price}
+                        <input value={restaurantData?.starting_price}
                             onChange={(e) => {
                                 const value = e.target.value
-                                setRestaurant(prev => ({
+                                setRestaurantData(prev => ({
                                     ...prev,
                                     starting_price: value === "" ? "" : Number(value)
                                 }))
@@ -312,9 +313,9 @@ const RestaurantProfilePage = () => {
                         </div>
                         <div>
                             <Toggle
-                                isActive={restaurant.is_open}
+                                isActive={restaurantData?.is_open}
                                 onToggle={() =>
-                                    setRestaurant(prev => ({
+                                    setRestaurantData(prev => ({
                                         ...prev,
                                         is_open: !prev.is_open
                                     }))
@@ -330,9 +331,9 @@ const RestaurantProfilePage = () => {
                         </div>
                         <div>
                             <Toggle
-                                isActive={restaurant.accept_order}
+                                isActive={restaurantData?.accept_order}
                                 onToggle={() =>
-                                    setRestaurant(prev => ({
+                                    setRestaurantData(prev => ({
                                         ...prev,
                                         accept_order: !prev.accept_order
                                     }))
@@ -351,10 +352,10 @@ const RestaurantProfilePage = () => {
                     <div className='border-b border-zinc-400' />
                     <div className='flex flex-col gap-1'>
                         <label htmlFor="starting_price" className='text-sm text-zinc-800 font-semibold'>Max Delivery Radius (Km)</label>
-                        <input value={restaurant.max_delivery_radius}
+                        <input value={restaurantData?.max_delivery_radius}
                             onChange={(e) => {
                                 const value = e.target.value
-                                setRestaurant(prev => ({
+                                setRestaurantData(prev => ({
                                     ...prev,
                                     max_delivery_radius: value === "" ? "" : Number(value)
                                 }))

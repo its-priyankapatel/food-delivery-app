@@ -8,32 +8,31 @@ import {
   getAllFoodController,
   getFoodByCategoryController,
 } from "../controllers/foodController.js";
-import { authMiddleware } from "../Middlewares/authMiddleware.js";
 import upload from "../Middlewares/multer.js";
+import { userAuthMiddleware } from "../Middlewares/userAuthMiddleware.js";
 
 const router = express.Router();
 
 router.post(
   "/add-food",
-  authMiddleware,
-  upload.single("image"),
+  userAuthMiddleware,
   AddfoodController
 );
-router.get("/get-all-food", authMiddleware, getAllFoodController);
-router.get("/get-food/:id", authMiddleware, fetchFoodController);
-router.get("/get-categories", authMiddleware, fetchCategoryController);
+router.get("/get-all-food", userAuthMiddleware, getAllFoodController);
+router.get("/get-food/:id", userAuthMiddleware, fetchFoodController);
+router.get("/get-categories", userAuthMiddleware, fetchCategoryController);
 router.get(
   "/get-food-category/:categoryName",
-  authMiddleware,
+  userAuthMiddleware,
   getFoodByCategoryController
 );
 router.patch(
   "/edit/:id",
-  authMiddleware,
+  userAuthMiddleware,
   upload.single("image"),
   editFoodController
 );
 
-router.delete("/delete/:foodId", authMiddleware, deleteFoodController);
+router.delete("/delete/:foodId", userAuthMiddleware, deleteFoodController);
 
 export default router;

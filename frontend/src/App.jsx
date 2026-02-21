@@ -92,9 +92,9 @@ const App = () => {
         <Route
           path="/register/restaurant"
           element={
-            <PublicRoutes>
+            <RestaurantPublicRoute>
               <RegisterRestaurant />
-            </PublicRoutes>
+            </RestaurantPublicRoute>
           }
         />
         <Route

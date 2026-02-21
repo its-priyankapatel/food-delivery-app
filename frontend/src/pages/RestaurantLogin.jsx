@@ -1,14 +1,14 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import App from "../App";
 import { AppContext } from "../context/AppContext";
-import { toast } from "react-toastify";
 import BG from "../component/BG/BG";
 import { PiChefHatBold } from "react-icons/pi";
 import { AiOutlineMail } from "react-icons/ai";
 import { MdLockOutline } from "react-icons/md";
+import { useNotification } from "../component/shared/notificationProvider";
 const RestaurantLogin = () => {
+  const { showNotification } = useNotification()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -19,21 +19,26 @@ const RestaurantLogin = () => {
   const { backendUrl } = useContext(AppContext);
 
   const handleAuthentication = async () => {
-    const { data } = await axios.post(
-      backendUrl + "/api/auth/restaurant-login",
-      {
-        email,
-        password,
+    try {
+
+      const { data } = await axios.post(
+        backendUrl + "/api/auth/restaurant-login",
+        {
+          email,
+          password,
+        }
+      );
+      if (data.success) {
+        showNotification("Logged In successful", "success")
+        localStorage.setItem("restaurantToken", data.token);
+        setEmail("");
+        setPassword("");
+        navigate("/restaurant-dashboard");
+      } else {
+        showNotification(data.message, "error")
       }
-    );
-    if (data.success) {
-      toast.success("Restaurant Logged In Successfully");
-      localStorage.setItem("restaurantToken", data.token);
-      setEmail("");
-      setPassword("");
-      navigate("/restaurant-dashboard");
-    } else {
-      toast.error("Something went wrong, Please login again");
+    } catch (error) {
+      showNotification("Something went wrong", "error");
     }
   };
   return (

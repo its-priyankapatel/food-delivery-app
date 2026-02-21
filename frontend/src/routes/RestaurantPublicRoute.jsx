@@ -6,38 +6,40 @@ import { useNavigate } from "react-router-dom";
 const RestaurantPublicRoute = ({ children }) => {
   const navigate = useNavigate();
   const { backendUrl } = useContext(AppContext);
+
   const [loading, setLoading] = useState(true);
 
-  const fetchRestaurant = async (token) => {
-    try {
-      const { data } = await axios.get(
-        backendUrl + "/api/auth/retrive-restaurant",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      if (data.success) {
-        // If restaurant is already authenticated, redirect to dashboard
-        navigate("/restaurant-dashboard");
-      } else {
-        setLoading(false); // Not authenticated, allow public access
-      }
-    } catch (error) {
-      setLoading(false); // On error, treat as public access
-    }
-  };
-
   useEffect(() => {
-    const token = localStorage.getItem("restaurantToken");
-    if (token) {
-      fetchRestaurant(token);
-    } else {
-      setLoading(false); // No token, allow access
-    }
-  }, []);
+    const verify = async () => {
+      const token = localStorage.getItem("restaurantToken");
 
-  if (loading) return null; // Optionally show spinner/loader
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await axios.get(
+          backendUrl + "/api/restaurant/verify",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        if (res.data.success) {
+          navigate("/restaurant-dashboard");
+        } else {
+          localStorage.removeItem("restaurantToken");
+          setLoading(false);
+        }
+      } catch (error) {
+        localStorage.removeItem("restaurantToken");
+        setLoading(false);
+      }
+    };
+
+    verify();
+  }, [backendUrl, navigate]);
+
+  if (loading) return null;
 
   return <>{children}</>;
 };

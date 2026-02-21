@@ -6,8 +6,13 @@ import { AppContext } from "./../context/AppContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../component/Spinner";
+import { useNotification } from "../component/shared/notificationProvider";
+import Loading from "../component/ui/Loading";
+import { uploadToCloudinary } from "../utils/config/CloudinaryUploads";
 
 const AddFoodItem = () => {
+  const [width, setWidth] = useState(0)
+  const { showNotification } = useNotification()
   const [foodLoading, setFoodLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -67,29 +72,35 @@ const AddFoodItem = () => {
     e.preventDefault();
     try {
       setFoodLoading(true);
-      const data = new FormData();
-      Object.entries(formData).forEach(([key, value]) => {
-        if (key !== "inStock" && key !== "isVeg") {
-          data.append(key, value);
-        }
-      });
+      setWidth(0)
+      let logoUrl = null;
 
-      data.append("inStock", formData.inStock ? "true" : "false");
-      data.append("isVeg", formData.isVeg ? "true" : "false");
+      if (formData.image) {
+        const imageResult = await uploadToCloudinary({
+          file: formData.image,
+          onProgress: (pct) => {
+            console.log("Uploading:", pct + "%");
+            setWidth(pct)
+          }
+        });
+
+        logoUrl = imageResult.secure_url;
+      }
+      if (logoUrl != null)
+        formData.image = logoUrl
 
       const response = await axios.post(
         backendUrl + "/api/food/add-food",
-        data,
+        formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${localStorage.getItem("restaurantToken")}`,
           },
         }
       );
 
       if (response.data.success) {
-        toast.success("Food item added successfully!");
+        showNotification("Food item added successfully!", "success");
         setFormData({
           name: "",
           price: "",
@@ -101,25 +112,31 @@ const AddFoodItem = () => {
         });
         setImagePreview(null);
         fetchRestaurant();
-        toast.success("Food item added successfully!");
+        navigate(-1);
       } else {
-        toast.error("Failed to add food item.");
+        showNotification(response.data.message, "error");
       }
     } catch (error) {
       console.error("❌ Error adding food item:", error);
-      toast.error("Failed to add food item.");
+      showNotification("Failed to add food item.", "error");
     } finally {
       setFoodLoading(false);
+      setWidth(0)
     }
   };
 
   return (
     <div className="relative min-h-screen w-full px-24 bg-gray-50 p-6 font-poppins">
-      {foodLoading && (
+      {foodLoading && !formData?.image && (
         <div className="fixed h-screen w-full bg-black/70 top-0 left-0 z-10 flex justify-center items-center">
           <Spinner />
         </div>
       )}
+      {
+        foodLoading && formData?.image && (
+          <Loading width={width} />
+        )
+      }
       {/* header*/}
       <div className="w-[60%] flex items-center gap-4 mb-8 mx-auto">
         <div
@@ -144,9 +161,8 @@ const AddFoodItem = () => {
             Food Image
           </p>
           <div
-            className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors h-full w-full hover:border-green-500 ${
-              dragActive ? "border-green-500 bg-green-50" : "border-gray-300"
-            }`}
+            className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors h-full w-full hover:border-green-500 ${dragActive ? "border-green-500 bg-green-50" : "border-gray-300"
+              }`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
@@ -281,22 +297,20 @@ const AddFoodItem = () => {
             <div className="flex w-full gap-4">
               <div
                 onClick={() => handleFoodType(true)}
-                className={`flex p-2 justify-center items-center w-1/3 h-10 gap-3 border rounded-lg cursor-pointer ${
-                  formData.isVeg
-                    ? "border-green-500 bg-green-500/15"
-                    : "border-[rgba(0,0,0,0.1)] hover:border-green-500"
-                }`}
+                className={`flex p-2 justify-center items-center w-1/3 h-10 gap-3 border rounded-lg cursor-pointer ${formData.isVeg
+                  ? "border-green-500 bg-green-500/15"
+                  : "border-[rgba(0,0,0,0.1)] hover:border-green-500"
+                  }`}
               >
                 <IoRadioButtonOn className="text-green-600" />
                 <p className="text-sm text-gray-700">Vegetarian</p>
               </div>
               <div
                 onClick={() => handleFoodType(false)}
-                className={`flex p-2 justify-center items-center w-1/3 h-10 gap-3 border rounded-lg cursor-pointer ${
-                  !formData.isVeg
-                    ? "border-red-600 bg-red-600/15"
-                    : "border-[rgba(0,0,0,0.1)] hover:border-red-600"
-                }`}
+                className={`flex p-2 justify-center items-center w-1/3 h-10 gap-3 border rounded-lg cursor-pointer ${!formData.isVeg
+                  ? "border-red-600 bg-red-600/15"
+                  : "border-[rgba(0,0,0,0.1)] hover:border-red-600"
+                  }`}
               >
                 <IoRadioButtonOn className="text-red-600" />
                 <p className="text-sm text-gray-700">Non-Vegetarian</p>

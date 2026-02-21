@@ -1,48 +1,50 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AppContext } from "./../context/AppContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const RestaurantProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
   const { backendUrl } = useContext(AppContext);
+
   const [loading, setLoading] = useState(true);
-  const [authorized, setAuthorized] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
 
-  const fetchRestaurant = async (token) => {
-    try {
-      const { data } = await axios.get(
-        backendUrl + "/api/auth/retrive-restaurant",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      if (data.success) {
-        setAuthorized(true); // Allow access
-      } else {
-        localStorage.removeItem("restaurantToken");
-        navigate("/login"); // Redirect to login
-      }
-    } catch (error) {
-      navigate("/login"); // Redirect on error
-    } finally {
-      setLoading(false);
-    }
-  };
-  const location = useLocation();
   useEffect(() => {
-    const token = localStorage.getItem("restaurantToken");
-    if (token) {
-      fetchRestaurant(token);
-    } else {
-      navigate("/login");
-    }
-  }, [location.pathname]);
+    const verify = async () => {
+      const token = localStorage.getItem("restaurantToken");
 
-  if (loading) return null; // Optionally render loader
+      if (!token) {
+        navigate("/login/restaurant");
+        return;
+      }
 
-  return authorized ? <>{children}</> : null;
+      try {
+        const res = await axios.get(
+          backendUrl + "/api/restaurant/verify",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        if (res.data.success) {
+          setIsAuth(true);
+        } else {
+          localStorage.removeItem("restaurantToken");
+          navigate("/login/restaurant");
+        }
+      } catch (error) {
+        localStorage.removeItem("restaurantToken");
+        navigate("/login/restaurant");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    verify();
+  }, [backendUrl, navigate]);
+
+  if (loading) return null;
+
+  return isAuth ? <>{children}</> : null;
 };
 
 export default RestaurantProtectedRoute;

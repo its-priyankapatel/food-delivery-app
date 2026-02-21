@@ -68,13 +68,13 @@ export const AppContextProvider = ({ children }) => {
     try {
       setRestaurantLoading(true);
       const { data } = await axios.get(
-        `${backendUrl}/api/auth/retrive-restaurant`,
+        `${backendUrl}/api/restaurant/get-restaurant`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (data.success) {
-        console.log(data.restaurant);
+        console.log(data.restaurant)
         setRestaurant(data.restaurant);
       } else setRestaurant(null);
     } catch (error) {
@@ -94,6 +94,7 @@ export const AppContextProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
+        restaurantLoading,
         backendUrl,
         currencySymbol,
         user,
