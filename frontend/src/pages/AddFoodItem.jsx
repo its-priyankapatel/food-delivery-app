@@ -126,7 +126,7 @@ const AddFoodItem = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full px-24 bg-gray-50 p-6 font-poppins">
+    <div className="relative min-h-screen w-full px-4 md:px-24 bg-gray-50 p-6 font-poppins">
       {foodLoading && !formData?.image && (
         <div className="fixed h-screen w-full bg-black/70 top-0 left-0 z-10 flex justify-center items-center">
           <Spinner />
